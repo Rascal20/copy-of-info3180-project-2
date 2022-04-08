@@ -50,12 +50,16 @@ def send_text_file(file_name):
 def registerUser():
     if request.is_json:
         userDetails = request.get_json()
+        #check for an existing use
+        existingUser = UserProfile.query.filter_by(username=userDetails['username']).first()
+        if existingUser:
+            return jsonify(message="User already exists."), 409
         newUser = UserProfile(first_name=userDetails['firstName'],
                                 last_name=userDetails['lastName'], username=userDetails['username'],
                                 password=userDetails['password'])
         db.session.add(newUser)
         db.session.commit()
-        return jsonify(message="User created successfully."), 200
+        return jsonify(message="User created successfully."), 201
     return jsonify(message= "Malformed request body"), 400
 
 
