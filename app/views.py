@@ -5,10 +5,10 @@ Werkzeug Documentation:  https://werkzeug.palletsprojects.com/
 This file creates your application.
 """
 
-from app import app
+from app import app, db
 from flask import render_template, request, jsonify, send_file
 import os
-
+from app.models import UserProfile
 
 ###
 # Routing for your application.
@@ -43,6 +43,20 @@ def send_text_file(file_name):
     """Send your static text file."""
     file_dot_text = file_name + '.txt'
     return app.send_static_file(file_dot_text)
+
+#register a new user
+#fields expected in JSON body are firstName, lastName, username, and password
+@app.route('/register', methods=['POST'])
+def registerUser():
+    if request.is_json:
+        userDetails = request.get_json()
+        newUser = UserProfile(first_name=userDetails['firstName'],
+                                last_name=userDetails['lastName'], username=userDetails['username'],
+                                password=userDetails['password'])
+        db.session.add(newUser)
+        db.session.commit()
+        return jsonify(message="User created successfully."), 200
+    return jsonify(message= "Malformed request body"), 400
 
 
 @app.after_request
