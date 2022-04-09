@@ -18,7 +18,9 @@ from app.models import UserProfile
 def index():
     return jsonify(message="This is the beginning of our API")
 
-
+@app.route('/login')
+def login():
+    return render_template('login_temp.html')
 ###
 # The functions below should be applicable to all Flask apps.
 ###
