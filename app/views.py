@@ -5,10 +5,14 @@ Werkzeug Documentation:  https://werkzeug.palletsprojects.com/
 This file creates your application.
 """
 
-from app import app, db
-from flask import render_template, request, jsonify, send_file
+from app import app, db, login_manager
+from flask_login import login_user, logout_user, current_user, login_required
+from flask import render_template, request, jsonify, send_file, flash
 import os
 from app.models import UserProfile
+from app.forms import LoginForm
+from werkzeug.security import check_password_hash
+from flask_wtf.csrf import generate_csrf
 
 ###
 # Routing for your application.
@@ -18,7 +22,39 @@ from app.models import UserProfile
 def index():
     return jsonify(message="This is the beginning of our API")
 
+@app.route("/api/auth/login", methods=["POST"])
+def login():
+    form = LoginForm()
+    if request.method == "POST":
+        if form.validate_on_submit():
+            username = form.username.data
+            password = form.password.data
+            user = UserProfile.query.filter_by(username=username).first()
+            if user is not None and check_password_hash(user.password, password):
+                login_user(user)
+                flash("Login Successful.",'success')
+                jsonmsg=jsonify(message=" Login Successful",token='token')         
+                return jsonmsg  
+        else:
+            err=form_errors(form)
+            for er in err:
+                jsonErr=jsonify(errors=err)
+            return jsonErr
 
+@app.route("/api/auth/logout")
+@login_required
+def logout():
+    logout_user()
+    flash('Logout successful.', 'success')
+    return redirect(url_for('home'))
+
+@login_manager.user_loader
+def load_user(id):
+    return UserProfile.query.get(int(id))
+
+@app.route('/api/csrf-token', methods=['GET'])
+def get_csrf():
+    return jsonify({'token': generate_csrf()})
 ###
 # The functions below should be applicable to all Flask apps.
 ###
