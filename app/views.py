@@ -44,9 +44,10 @@ def login():
 @app.route("/api/auth/logout")
 @login_required
 def logout():
-    logout_user()
-    flash('Logout successful.', 'success')
-    return redirect(url_for('home'))
+    pass
+#    logout_user()
+#    flash('Logout successful.', 'success')
+#    return redirect(url_for('home'))
 
 @login_manager.user_loader
 def load_user(id):
@@ -55,6 +56,9 @@ def load_user(id):
 @app.route('/api/csrf-token', methods=['GET'])
 def get_csrf():
     return jsonify({'token': generate_csrf()})
+@app.route('/login')
+def login():
+    return render_template('login_temp.html')
 ###
 # The functions below should be applicable to all Flask apps.
 ###
@@ -86,12 +90,16 @@ def send_text_file(file_name):
 def registerUser():
     if request.is_json:
         userDetails = request.get_json()
+        #check for an existing use
+        existingUser = UserProfile.query.filter_by(username=userDetails['username']).first()
+        if existingUser:
+            return jsonify(message="User already exists."), 409
         newUser = UserProfile(first_name=userDetails['firstName'],
                                 last_name=userDetails['lastName'], username=userDetails['username'],
                                 password=userDetails['password'])
         db.session.add(newUser)
         db.session.commit()
-        return jsonify(message="User created successfully."), 200
+        return jsonify(message="User created successfully."), 201
     return jsonify(message= "Malformed request body"), 400
 
 

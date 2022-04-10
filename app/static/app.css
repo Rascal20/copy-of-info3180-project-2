@@ -1,0 +1,37 @@
+*{
+    box-sizing: border-box; 
+    margin-top:0;
+}
+
+:root{
+    --cta-green: rgb(71, 173, 111);
+    --cta-blue: rgb(46, 105, 243);
+    --white: #fff;
+
+}
+body{
+    background-color: whitesmoke;
+}
+
+.navbar{
+    padding-right: 1rem;
+    padding-left: 1rem;
+}
+
+.card{
+    border-radius: .5rem;
+}
+
+.btn-primary{
+    background-color: var(--cta-green);
+    border:none;
+
+}
+
+.nav-link{
+    color: var(--white)
+}
+
+.btn-block{
+    width: 100%;
+}
