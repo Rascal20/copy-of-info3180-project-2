@@ -57,9 +57,9 @@ def load_user(id):
 def get_csrf():
     return jsonify({'token': generate_csrf()})
 
-@app.route('/login')
-def login():
-    return render_template('login_temp.html')
+#@app.route('/login')
+#def login():
+#    return render_template('login_temp.html')
 ###
 # The functions below should be applicable to all Flask apps.
 ###
