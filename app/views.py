@@ -56,6 +56,7 @@ def load_user(id):
 @app.route('/api/csrf-token', methods=['GET'])
 def get_csrf():
     return jsonify({'token': generate_csrf()})
+
 @app.route('/login')
 def login():
     return render_template('login_temp.html')
