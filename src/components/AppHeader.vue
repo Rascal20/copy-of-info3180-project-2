@@ -19,12 +19,12 @@
             <li class="nav-item">
               <RouterLink to="/" class="nav-link active">Home</RouterLink>
             </li>
-            <li class="nav-item">
-              <RouterLink class="nav-link" to="/about">About</RouterLink>
+            <li class="nav-item active">
+              <RouterLink class="nav-link" to="/login">Login</RouterLink>
             </li>
             <li class="nav-item active">
-            <router-link class="nav-link" to="/login"> Login <span class="sr-only"></span></router-link>
-          </li>
+              <RouterLink class="nav-link" to="/login">Register</RouterLink>
+            </li>
           </ul>
         </div>
       </div>
