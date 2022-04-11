@@ -4,7 +4,7 @@
         <div  v-if="isSuccess">
              </div>
 
-        <form>
+        <form @submit.prevent="loginUser" id="LoginForm" method="POST" enctype="multipart/form-data">
         <div class="form-group">
         
             <label> Username </label><br>
