@@ -16,7 +16,7 @@
              <div class="form-row">
                 <div class="form-group">
                     <label>Fullname</label><br>
-                    <input type="text" name="fullname">
+                    <input type="text" name="fullName">
                 </div>
                 <div class="form-group">
                     <label>Email</label><br>
@@ -31,7 +31,7 @@
 
             <div class="form-group">
                 <label> Biography </label><br>
-                <textarea name="bio"></textarea>
+                <textarea name="biography"></textarea>
             </div>
 
             <div class="form-group">

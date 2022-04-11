@@ -6,14 +6,22 @@ class UserProfile(db.Model):
     __tablename__ = 'user_profiles'
 
     id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String(80))
-    last_name = db.Column(db.String(80))
+    name = db.Column(db.String(80))
+    location = db.Column(db.String(80))
+    email = db.Column(db.String(80))
+    photo = db.Column(db.String(80))
     username = db.Column(db.String(80), unique=True)
     password = db.Column(db.String(255))
+    date_joined = db.Column(db.DateTime, server_default=db.func.now())
+    biography = db.Column(db.String(255))
 
-    def __init__(self, first_name, last_name, username, password):
-        self.first_name = first_name
-        self.last_name = last_name
+    def __init__(self, name, email, username, password, location,
+                biography, photo):
+        self.name = name
+        self.email = email
+        self.photo = photo
+        self.location = location
+        self.biography = biography
         self.username = username
         self.password = generate_password_hash(password, method='pbkdf2:sha256')
 

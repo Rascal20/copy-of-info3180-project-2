@@ -10,13 +10,14 @@ from flask_login import login_user, logout_user, current_user, login_required
 from flask import render_template, request, jsonify, send_file, flash
 import os
 from app.models import UserProfile
-from app.forms import LoginForm
+from app.forms import LoginForm, RegisterForm
 from werkzeug.security import check_password_hash
 from flask_wtf.csrf import generate_csrf
 import jwt
 from functools import wraps
 from flask import _request_ctx_stack
 import datetime
+from werkzeug.utils import secure_filename
 
 def requires_auth(f):
   @wraps(f)
@@ -119,21 +120,37 @@ def send_text_file(file_name):
 
 #register a new user
 #fields expected in JSON body are firstName, lastName, username, and password
-@app.route('/register', methods=['POST'])
+@app.route('/api/register', methods=['POST'])
 def registerUser():
-    if request.is_json:
-        userDetails = request.get_json()
-        #check for an existing use
-        existingUser = UserProfile.query.filter_by(username=userDetails['username']).first()
+    form = RegisterForm()
+    if form.validate_on_submit():
+        #userDetails = request.get_json()
+        username = form.username.data
+        fullname = form.fullName.data
+        username = form.username.data
+        email = form.email.data
+        location = form.location.data
+        bio = form.biography.data
+        photo = form.photo.data
+        password = form.password.data
+        #check for an existing user
+        existingUser = UserProfile.query.filter_by(username=username).first()
         if existingUser:
             return jsonify(message="User already exists."), 409
-        newUser = UserProfile(first_name=userDetails['firstName'],
-                                last_name=userDetails['lastName'], username=userDetails['username'],
-                                password=userDetails['password'])
+        #save photo
+        photo_fn = secure_filename(photo.filename)
+        photo.save(
+                os.path.join(os.getcwd(), app.config['UPLOAD_FOLDER'], photo_fn)
+            )
+        newUser = UserProfile(name=fullname, password=password,
+                                username=username, email=email,
+                                biography=bio, location=location, photo=photo_fn )
         db.session.add(newUser)
         db.session.commit()
         return jsonify(message="User created successfully."), 201
-    return jsonify(message= "Malformed request body"), 400
+    else:
+        return jsonify(form_errors(form)), 400
+    
 
 
 @app.after_request
