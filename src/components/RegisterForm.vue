@@ -58,7 +58,7 @@ export default {
         register() {
             let registerForm = document.getElementById('registerForm');
             let form_data = new FormData(registerForm);
-            fetch("/api/register", {
+            fetch("/register", {
                 method: 'POST',
                 body: form_data,
                 headers: {

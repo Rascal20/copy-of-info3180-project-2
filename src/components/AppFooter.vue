@@ -18,4 +18,10 @@ export default {
 
 <style>
 /* Add any component specific styles here */
+footer{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
 </style>
