@@ -31,7 +31,7 @@ export default {
             let loginForm = document.getElementById('loginForm');
             let form_data = new FormData(loginForm);
             console.log(this.errors)
-            fetch("/api/login", {
+            fetch("/api/auth/login", {
                 method: 'POST',
                 body: form_data,
                 headers: {
@@ -48,7 +48,7 @@ export default {
                         
                     //this.successmessage = "File Uploaded Successfully"
                     // display a success message
-                    console.log(jsonResponse);
+                    console.log(response);
                 })
                 .catch(function (error) {
                 //this.errormessage = "Something went wrong"
