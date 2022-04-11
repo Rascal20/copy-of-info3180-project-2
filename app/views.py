@@ -5,7 +5,7 @@ Werkzeug Documentation:  https://werkzeug.palletsprojects.com/
 This file creates your application.
 """
 
-from app import app, db, login_manager
+from app import app, db, login_manager, csrf
 from flask_login import login_user, logout_user, current_user, login_required
 from flask import render_template, request, jsonify, send_file, flash
 import os
@@ -13,6 +13,41 @@ from app.models import UserProfile
 from app.forms import LoginForm
 from werkzeug.security import check_password_hash
 from flask_wtf.csrf import generate_csrf
+import jwt
+from functools import wraps
+from flask import _request_ctx_stack
+import datetime
+
+def requires_auth(f):
+  @wraps(f)
+  def decorated(*args, **kwargs):
+    auth = request.headers.get('Authorization', None)
+
+    if not auth:
+      return jsonify({'code': 'authorization_header_missing', 'description': 'Authorization header is expected'}), 401
+
+    parts = auth.split()
+
+    if parts[0].lower() != 'bearer':
+      return jsonify({'code': 'invalid_header', 'description': 'Authorization header must start with Bearer'}), 401
+    elif len(parts) == 1:
+      return jsonify({'code': 'invalid_header', 'description': 'Token not found'}), 401
+    elif len(parts) > 2:
+      return jsonify({'code': 'invalid_header', 'description': 'Authorization header must be Bearer + \s + token'}), 401
+
+    token = parts[1]
+    try:
+        payload = jwt.decode(token, app.config['SECRET_KEY'], algorithms=["HS256"])
+
+    except jwt.ExpiredSignatureError:
+        return jsonify({'code': 'token_expired', 'description': 'token is expired'}), 401
+    except jwt.DecodeError:
+        return jsonify({'code': 'token_invalid_signature', 'description': 'Token signature is invalid'}), 401
+
+    g.current_user = payload
+    return f(*args, **kwargs)
+
+  return decorated
 
 ###
 # Routing for your application.
@@ -25,29 +60,29 @@ def index():
 @app.route("/api/auth/login", methods=["POST"])
 def login():
     form = LoginForm()
-    if request.method == "POST":
+    errors = []
+    if request.method == 'POST':
         if form.validate_on_submit():
             username = form.username.data
             password = form.password.data
             user = UserProfile.query.filter_by(username=username).first()
             if user is not None and check_password_hash(user.password, password):
-                login_user(user)
-                flash("Login Successful.",'success')
-                jsonmsg=jsonify(message=" Login Successful",token='token')         
-                return jsonmsg  
-        else:
-            err=form_errors(form)
-            for er in err:
-                jsonErr=jsonify(errors=err)
-            return jsonErr
+                payload = {
+                    'id': user.id,
+                    'username': user.username,
+                    'iat': datetime.datetime.now(datetime.timezone.utc),
+                    'exp': datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(minutes=30)
+                }
+                token = jwt.encode(payload, app.config['SECRET_KEY'], algorithm='HS256')
+                return jsonify(data={'message': 'Login Successful','token': token, 'id': user.id})
+            else:
+                errors.append('Unauthorized Username or Password provided.')
+        return jsonify(errors=form_errors(form) + errors)
 
 @app.route("/api/auth/logout")
-@login_required
+#@requires_auth
 def logout():
-    pass
-#    logout_user()
-#    flash('Logout successful.', 'success')
-#    return redirect(url_for('home'))
+    return jsonify(data={'message': "You've been successfully logged out."})
 
 @login_manager.user_loader
 def load_user(id):
@@ -57,9 +92,6 @@ def load_user(id):
 def get_csrf():
     return jsonify({'token': generate_csrf()})
 
-#@app.route('/login')
-#def login():
-#    return render_template('login_temp.html')
 ###
 # The functions below should be applicable to all Flask apps.
 ###
