@@ -58,7 +58,7 @@ export default {
         register() {
             let registerForm = document.getElementById('registerForm');
             let form_data = new FormData(registerForm);
-            fetch("/register", {
+            fetch("/api/register", {
                 method: 'POST',
                 body: form_data,
                 headers: {
@@ -82,7 +82,7 @@ export default {
             .then((response) => response.json())
             .then((data) => {
                 console.log(data);
-                self.csrf_token = data.csrf_token;
+                self.csrf_token = data.token;
                 })
         }
     }
