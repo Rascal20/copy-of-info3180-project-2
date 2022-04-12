@@ -1,4 +1,5 @@
 <template>
+ <!--
     <div>
         <h2> Login to your account </h2>
         <div  v-if="isSuccess">
@@ -17,7 +18,50 @@
         <button type="submit" class="btn btn-primary mb-2" > Login </button>
         </form>
     </div>
+   -->
+
+     <section class="vh-80" >
+      
+      <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+          <div class="col-12 col-md-8 col-lg-6 col-xl-5 ">
+
+            <h3 class="mb-5 text-center">Login to your account</h3>
+            <div  v-if="isSuccess">
+             </div>
+            <div class="card shadow-2-strong" >
+              
+              <div class="card-body p-5 text-left">
+    
+                <form  @submit.prevent="loginUser" id="loginForm">
+                    <div class="form-group">
+                
+                <div class="form-outline mb-4">
+                  <label class="form-label" for="typeEmailX">Username</label>
+                  <input type="text" id="typeEmailX" class="form-control form-control-lg" name="username"/>
+                  
+                </div>
+    
+                <div class="form-outline mb-4">
+                  <label class="form-label" for="typePasswordX">Password</label>
+                  <input type="password" id="typePasswordX" class="form-control form-control-lg" name="password" />
+                 
+                </div>
+    
+               
+    
+                <button class="btn btn-primary btn-lg btn-block" type="submit">Login</button>
+                </div>
+                 </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+        </section>
+ 
 </template>
+
 
 <script>
 export default {
@@ -74,5 +118,21 @@ export default {
 </script>
 
 <style scoped>
+
+
+.card{
+  border-radius: .5rem;
+}
+
+.btn-primary{
+  background-color: rgb(71, 173, 111);
+  border:none;
+
+}
+
+.btn-block{
+  width: 100%;
+}
+
 
 </style>
