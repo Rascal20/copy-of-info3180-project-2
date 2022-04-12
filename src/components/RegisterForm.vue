@@ -1,4 +1,5 @@
 <template>
+    <!--
     <div class="form-container">
         <h1>Register New User</h1>
         <form @submit.prevent="register" id="registerForm" method="POST" enctype="multipart/form-data">
@@ -42,6 +43,75 @@
             <button type="submit" name="submit" class="form-btn">Register</button>
         </form>
     </div>
+
+    -->
+        <section class="vh-80" >
+      
+      <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+          <div class="col-12 col-md-8 col-lg-6 col-xl-5 ">
+
+           <h1 class="mb-5 text-center">Register New User</h1>
+            <div  v-if="isSuccess">
+             </div>
+            <div class="card shadow-2-strong" >
+              
+              <div class="card-body p-5 text-left">
+    
+                <form  @submit.prevent="register" id="registerForm" method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                
+                <div class="form-outline mb-4">
+                  <label class="form-label" >Username</label>
+                  <input type="text" class="form-control form-control-lg" name="username"/>
+                  
+                </div>
+    
+                <div class="form-outline mb-4">
+                  <label class="form-label" >Password</label>
+                  <input type="password"  class="form-control form-control-lg" name="password" />
+                 
+                </div>
+
+                <div class="form-outline mb-4">
+                  <label class="form-label" >Fullname</label>
+                  <input type="text" class="form-control form-control-lg" name="fullName"/>
+                  
+                </div>
+    
+                <div class="form-outline mb-4">
+                  <label class="form-label" >Email</label>
+                  <input type="text"  class="form-control form-control-lg" name="email" />
+                 
+                </div>
+
+                <div class="form-outline mb-4">
+                  <label class="form-label" >Location</label>
+                  <input type="text"  class="form-control form-control-lg" name="location" />
+                 
+                </div>
+
+                <div class="form-outline mb-4">
+                  <label class="form-label" >Biography</label>
+                  <textarea type="password"  class="form-control form-control-lg" name="biography" ></textarea>
+                 
+                </div>
+                
+               <div class="form-outline mb-4">
+                  <label class="form-label" >Upload Photo</label>
+                  <input type="file"  class="form-control form-control-lg" name="photo" />
+                 
+                </div>
+    
+                <button class="btn btn-primary btn-lg btn-block" type="submit">Register</button>
+                </div>
+                 </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+        </section>
 </template>
 
 <script>
@@ -90,4 +160,18 @@ export default {
 </script>
 
 <style>
+.card{
+  border-radius: .5rem;
+}
+
+.btn-primary{
+  background-color: rgb(71, 173, 111);
+  border:none;
+
+}
+
+.btn-block{
+  width: 30%;
+}
+
 </style>
