@@ -49,9 +49,9 @@
       
       <div class="container py-5 h-100" >
         <div class="row d-flex justify-content-center align-items-center h-100">
-          <div class="col-12 col-md-8 col-lg-6 col-xl-5 " >
+         <div class="col-12 col-md-8 col-lg-6 col-xl-5 " > 
 
-           <h1 class="mb-5 text-left">Register New User</h1>
+           <h1 class="text-left">Register New User</h1>
             <div  v-if="isSuccess">
              </div>
             <div class="card card-reg shadow-2-strong" >
@@ -101,7 +101,7 @@
                 
                <div class="form-outline mb-4 upload">
                   <label class="form-label" >Upload Photo</label>
-                  <input type="file"  class="form-control form-control-lg" name="photo" />
+                  <input type="file"  class="form-control form-control-lg" name="photo" style="border:none;" />
                  
                 </div>
     
@@ -110,6 +110,7 @@
                  </form>
               </div>
             </div>
+
           </div>
         </div>
         </div>
@@ -181,8 +182,6 @@ export default {
     display:grid;
     grid-template-columns: 50% 50% ;
     column-gap: 2rem;
-    width: 100%;
-    height: 50%;
 }
 
 .bio{
