@@ -12,25 +12,32 @@ export default {
     <div class="home">
         <div class="left">
             <h1 class="bold">Buy and Sell Cars Online</h1>
-            <p>United Auto Sales provides the fastest easiest and most user friendly 
+            <p class="text-secondary">United Auto Sales provides the fastest easiest and most user friendly 
             way to buy or sell cars online. Find a Great Price on the Vehicle You Want</p>
-            <div class="btn-group">
-            <button class="register">Register</button>
-            <button class="register">Login</button>
-        </div>
+           
+            <button class="btn btn-primary btn-lg btn-block">Register</button>
+            <button class="btn green btn-primary btn-lg btn-block ">Login</button>
+        
         </div>
         <div class="right">
-            <p>Place image here</p>
+            <img class="homeimg" src="src/assets/homeimg.jpeg" alt="bg">
         </div>       
     </div>
 </template>
 
 <style>
+
+*{ 
+    margin:0px;
+    box-sizing: border-box;
+}
+
 .bold{
     font-size: 60px;
 }
 .home{
-    width: 100%;
+    
+    width: 95%;
     height: 100vh;
 }
 .left{
@@ -44,8 +51,32 @@ export default {
 }
 
 .right{
-    font-size: 30px;
     width:50%;
     float: right;
+    overflow: hidden;
 }
+
+.btn-lg{
+    width: 10rem;
+}
+
+.btn-primary{
+  border:none;
+  margin-right: 1.5rem;
+}
+
+.green{
+     background-color: rgb(71, 173, 111);
+}
+
+.homeimg{
+background-repeat: no-repeat;
+    background-position: center top;
+    
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
+    position: left;
+}
+
 </style>

@@ -45,8 +45,6 @@ import { RouterLink } from "vue-router";
 
 <style>
 
-.nav-link{
-  color: white;
-}
+
 
 </style>
