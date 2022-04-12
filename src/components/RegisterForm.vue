@@ -47,27 +47,29 @@
     -->
         <section class="vh-80" >
       
-      <div class="container py-5 h-100">
+      <div class="container py-5 h-100" >
         <div class="row d-flex justify-content-center align-items-center h-100">
-          <div class="col-12 col-md-8 col-lg-6 col-xl-5 ">
+          <div class="col-12 col-md-8 col-lg-6 col-xl-5 " >
 
-           <h1 class="mb-5 text-center">Register New User</h1>
+           <h1 class="mb-5 text-left">Register New User</h1>
             <div  v-if="isSuccess">
              </div>
-            <div class="card shadow-2-strong" >
+            <div class="card card-reg shadow-2-strong" >
               
               <div class="card-body p-5 text-left">
     
-                <form  @submit.prevent="register" id="registerForm" method="POST" enctype="multipart/form-data">
-                    <div class="form-group">
+                <form  @submit.prevent="register" id="registerForm" method="POST" enctype="multipart/form-data" class="row g-3">
+                <div class="form-group-reg">
+
                 
-                <div class="form-outline mb-4">
+                
+                <div class="form-outline mb-4 ">
                   <label class="form-label" >Username</label>
                   <input type="text" class="form-control form-control-lg" name="username"/>
                   
                 </div>
     
-                <div class="form-outline mb-4">
+                <div class="form-outline mb-4 ">
                   <label class="form-label" >Password</label>
                   <input type="password"  class="form-control form-control-lg" name="password" />
                  
@@ -91,19 +93,19 @@
                  
                 </div>
 
-                <div class="form-outline mb-4">
+                <div class="form-outline mb-4 bio">
                   <label class="form-label" >Biography</label>
                   <textarea type="password"  class="form-control form-control-lg" name="biography" ></textarea>
                  
                 </div>
                 
-               <div class="form-outline mb-4">
+               <div class="form-outline mb-4 upload">
                   <label class="form-label" >Upload Photo</label>
                   <input type="file"  class="form-control form-control-lg" name="photo" />
                  
                 </div>
     
-                <button class="btn btn-primary btn-lg btn-block" type="submit">Register</button>
+                <button class="btn btn-primary btn-lg btn-block reg" type="submit">Register</button>
                 </div>
                  </form>
               </div>
@@ -160,7 +162,8 @@ export default {
 </script>
 
 <style>
-.card{
+.card-reg{
+  width: 60vw;
   border-radius: .5rem;
 }
 
@@ -171,7 +174,26 @@ export default {
 }
 
 .btn-block{
-  width: 30%;
+  width: 40%;
 }
 
+.form-group-reg{
+    display:grid;
+    grid-template-columns: 50% 50% ;
+    column-gap: 2rem;
+    width: 100%;
+    height: 50%;
+}
+
+.bio{
+    grid-area: 4/span 2;
+}
+
+.upload{
+    grid-area: 5;
+}
+
+.reg{
+    grid-area: 6;
+}
 </style>
