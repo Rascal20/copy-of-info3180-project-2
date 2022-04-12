@@ -6,7 +6,7 @@
       <nav class="navbar  navbar-dark bg-dark fixed-top ">
       <div class="container-fluid">
         <a class="navbar-brand" href="/">
-        <img src="./assets/logo.png" width="24" height="24" class="d-inline-block align-center" alt="lo">
+        <img src="src/assets/logo.png" width="24" height="24" class="d-inline-block align-center" alt="lo">
         United Auto Sales</a>
       <!--  <button
           class="navbar-toggler"
