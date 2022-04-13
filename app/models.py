@@ -42,3 +42,41 @@ class UserProfile(db.Model):
 
     def __repr__(self):
         return '<User %r>' % (self.username)
+
+class Car(db.Model):
+    __tablename__ = 'cars'
+
+    id = db.Column(db.Integer, primary_key=True)
+    make = db.Column(db.String(80))
+    model = db.Column(db.String(80))
+    colour = db.Column(db.String(80))
+    photo = db.Column(db.String(80))
+    description = db.Column(db.String(255))
+    year = db.Column(db.String(80))
+    transmission = db.Column(db.String(80))
+    car_type = db.Column(db.String(80))
+    price = db.Column(db.Float)
+    user_id = db.Column(db.Integer)
+
+
+    def __init__(self, make, colour, model, description, year,
+                transmission, photo,car_type, price, user_id):
+        self.make = make
+        self.colour = colour
+        self.model = model
+        self.photo = photo
+        self.description = description
+        self.year = year
+        self.transmission = transmission
+        self.car_type = car_type
+        self.price = price
+        self.user_id = user_id
+
+    def get_id(self):
+        try:
+            return unicode(self.id)  # python 2 support
+        except NameError:
+            return str(self.id)  # python 3 support
+
+    def __repr__(self):
+        return '<Car %r>' % (self.id)
