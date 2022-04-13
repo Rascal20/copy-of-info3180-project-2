@@ -9,8 +9,8 @@ from app import app, db, login_manager, csrf
 from flask_login import login_user, logout_user, current_user, login_required
 from flask import render_template, request, jsonify, send_file, flash
 import os
-from app.models import UserProfile
-from app.forms import LoginForm, RegisterForm
+from app.models import UserProfile, Car
+from app.forms import LoginForm, RegisterForm, CarForm
 from werkzeug.security import check_password_hash
 from flask_wtf.csrf import generate_csrf
 import jwt
@@ -45,7 +45,7 @@ def requires_auth(f):
     except jwt.DecodeError:
         return jsonify({'code': 'token_invalid_signature', 'description': 'Token signature is invalid'}), 401
 
-    g.current_user = payload
+    f.current_user = payload
     return f(*args, **kwargs)
 
   return decorated
@@ -150,8 +150,60 @@ def registerUser():
         return jsonify(message="User created successfully."), 201
     else:
         return jsonify(form_errors(form)), 400
-    
 
+#takes the auth header and returns the user's ID  
+def parse_userId(auth_header):
+    token = auth_header.split()[1]
+    user = jwt.decode(token, app.config['SECRET_KEY'], algorithms=["HS256"])
+    return user['id']
+
+@app.route('/api/cars', methods=['POST', 'GET'])
+@requires_auth
+def cars():
+    if request.method == 'POST':
+        form = CarForm()
+        if form.validate_on_submit:
+            make = form.make.data
+            colour = form.colour.data
+            model = form.model.data
+            description = form.description.data
+            year = form.year.data
+            transmission = form.transmission.data
+            car_type = form.car_type.data
+            price = form.price.data
+            photo = form.photo.data
+            photo_fn = secure_filename(photo.filename)
+            user_id = parse_userId(request.headers.get('Authorization'))
+            photo.save(
+                os.path.join(os.getcwd(), app.config['UPLOAD_FOLDER'], photo_fn)
+            )
+            newCar = Car(make=make, colour=colour,
+                                model=model, description=description,
+                                year=year, transmission=transmission,
+                                car_type=car_type, price=price,
+                                photo=photo_fn, user_id=user_id)
+            db.session.add(newCar)
+            db.session.commit()
+            return jsonify(message="Car added successfully."), 201
+        else:
+            return jsonify(form_errors(form)), 400
+    cars = Car.query.all()
+    carLst = []
+    for car in cars:
+        carDct = {
+            'id': car.id,
+            'make': car.make,
+            'colour': car.colour,
+            'model': car.model,
+            'description': car.description,
+            'year': car.year,
+            'transmission': car.transmission,
+            'car_type': car.car_type,
+            'price': car.price,
+            'photo': car.photo,
+        }
+        carLst.append(carDct)
+    return jsonify(cars=carLst), 200
 
 @app.after_request
 def add_header(response):
