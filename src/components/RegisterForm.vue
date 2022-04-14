@@ -195,4 +195,10 @@ export default {
 .reg{
     grid-area: 6;
 }
+
+.text-left{
+    padding-top: 30px;
+    padding-bottom: 20px;
+}
+
 </style>
