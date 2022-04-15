@@ -134,5 +134,8 @@ export default {
   width: 100%;
 }
 
+h3{
+  padding-top: 100px;
+}
 
 </style>
