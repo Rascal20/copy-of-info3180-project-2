@@ -9,7 +9,7 @@ from app import app, db, login_manager, csrf
 from flask_login import login_user, logout_user, current_user, login_required
 from flask import render_template, request, jsonify, send_file, flash
 import os
-from app.models import UserProfile, Car
+from app.models import UserProfile, Car, Favourites
 from app.forms import LoginForm, RegisterForm, CarForm
 from werkzeug.security import check_password_hash
 from flask_wtf.csrf import generate_csrf
@@ -20,35 +20,35 @@ import datetime
 from werkzeug.utils import secure_filename
 
 def requires_auth(f):
-  @wraps(f)
-  def decorated(*args, **kwargs):
-    auth = request.headers.get('Authorization', None)
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        auth = request.headers.get('Authorization', None)
 
-    if not auth:
-      return jsonify({'code': 'authorization_header_missing', 'description': 'Authorization header is expected'}), 401
+        if not auth:
+            return jsonify({'code': 'authorization_header_missing', 'description': 'Authorization header is expected'}), 401
 
-    parts = auth.split()
+        parts = auth.split()
 
-    if parts[0].lower() != 'bearer':
-      return jsonify({'code': 'invalid_header', 'description': 'Authorization header must start with Bearer'}), 401
-    elif len(parts) == 1:
-      return jsonify({'code': 'invalid_header', 'description': 'Token not found'}), 401
-    elif len(parts) > 2:
-      return jsonify({'code': 'invalid_header', 'description': 'Authorization header must be Bearer + \s + token'}), 401
+        if parts[0].lower() != 'bearer':
+            return jsonify({'code': 'invalid_header', 'description': 'Authorization header must start with Bearer'}), 401
+        elif len(parts) == 1:
+            return jsonify({'code': 'invalid_header', 'description': 'Token not found'}), 401
+        elif len(parts) > 2:
+            return jsonify({'code': 'invalid_header', 'description': 'Authorization header must be Bearer + \s + token'}), 401
 
-    token = parts[1]
-    try:
-        payload = jwt.decode(token, app.config['SECRET_KEY'], algorithms=["HS256"])
+        token = parts[1]
+        try:
+            payload = jwt.decode(token, app.config['SECRET_KEY'], algorithms=["HS256"])
 
-    except jwt.ExpiredSignatureError:
-        return jsonify({'code': 'token_expired', 'description': 'token is expired'}), 401
-    except jwt.DecodeError:
-        return jsonify({'code': 'token_invalid_signature', 'description': 'Token signature is invalid'}), 401
+        except jwt.ExpiredSignatureError:
+            return jsonify({'code': 'token_expired', 'description': 'token is expired'}), 401
+        except jwt.DecodeError:
+            return jsonify({'code': 'token_invalid_signature', 'description': 'Token signature is invalid'}), 401
 
-    f.current_user = payload
-    return f(*args, **kwargs)
+        g.current_user = user =  payload
+        return f(*args, **kwargs)
 
-  return decorated
+    return decorated
 
 ###
 # Routing for your application.
@@ -58,7 +58,7 @@ def requires_auth(f):
 def index():
     return jsonify(message="This is the beginning of our API")
 
-@app.route("/api/auth/login", methods=["POST"])
+@app.route("/api/auth/login", methods=['POST'])
 def login():
     form = LoginForm()
     errors = []
@@ -81,7 +81,7 @@ def login():
         return jsonify(errors=form_errors(form) + errors)
 
 @app.route("/api/auth/logout")
-#@requires_auth
+@requires_auth
 def logout():
     return jsonify(data={'message': "You've been successfully logged out."})
 
@@ -204,6 +204,91 @@ def cars():
         }
         carLst.append(carDct)
     return jsonify(cars=carLst), 200
+
+@app.route("/api/cars/<car_id>/favourite", methods=["POST"])
+@requires_auth
+def favourite(car_id):
+    json_favourite = request.get_json(silent=True)
+    cid = json_favourite.get("car_id")
+    uid = json_favourite.get("user_id")
+
+    isFav = Favourites.query.filter(Favourites.car_id == cid).filter(Favourites.user_id == uid ).first()
+   
+    if isFav == None:
+        favourite = Favourites(car_id = cid, user_id = uid)
+        db.session.add(favourite)
+        db.session.commit()
+        data = {
+            'message': 'Car Successfully Favourited',
+            'id': car_id
+        }
+        return jsonify(data = data)
+    return jsonify({"warning":"Car is Already a Favourite"})
+
+@app.route("/api/cars/<car_id>/favourite/remove", methods=["POST"])
+@requires_auth
+def remove_favourite(car_id):
+
+    fav = Favourites.query.filter(Favourites.car_id == car_id).filter(Favourites.user_id == g.current_user["id"] ).first()
+
+    db.session.delete(fav)
+    db.session.commit()
+
+    data = {
+        'message': 'Car Successfully Unfavourited',
+        'id': car_id
+    }
+
+    return jsonify(data=data)
+
+@app.route("/api/users/<user_id>", methods=["GET"])
+@requires_auth
+def get_user(user_id):
+    user = UserProfile.query.filter_by(id = user_id).first()
+    if user is None:
+        return jsonify({'message': "No such user", 'errors': []})
+
+    data = {
+        'id': user.id,
+        'username': user.username,
+        'name': user.name,
+        'photo': "/uploads/" + user.photo,
+        'email': user.email,
+        'location': user.location,
+        'biography': user.biography,
+        'date_joined': user.date
+    }
+    return jsonify(data=data)
+
+@app.route("/api/users/<user_id>/favourites", methods=["GET"])
+@requires_auth
+def get_user_favourites(user_id):
+    favourites = Favourites.query.filter_by(user_id=user_id).all()
+    data = []
+
+    if favourites is None:
+        return jsonify({"message": "User has no favourites", 'errors': []})
+
+    for favourite in favourites:
+
+        car_id = favourite.car_id
+        car = Car.query.filter_by(id=car_id).first()
+
+        data.append({
+            'id': car.id,
+            'description': car.description,
+            'year': car.year,
+            'make': car.make,
+            'model': car.model,
+            'colour': car.colour,
+            'transmission': car.transmission,
+            'type': car.car_type,
+            'price': car.price,
+            'photo': "/uploads/"+car.photo,
+            'user_id': car.userid
+        })
+    return jsonify(data=data)
+
 
 @app.after_request
 def add_header(response):
