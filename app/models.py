@@ -80,3 +80,22 @@ class Car(db.Model):
 
     def __repr__(self):
         return '<Car %r>' % (self.id)
+
+
+class Favourites(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    car_id = db.Column(db.Integer)
+    user_id = db.Column(db.Integer)
+
+    def __init__(self,car_id,user_id):
+        self.car_id = car_id
+        self.user_id = user_id
+
+    def get_id(self):
+        try:
+            return unicode(self.id)  # python 2 support
+        except NameError:
+            return str(self.id)  # python 3 support
+
+    def __repr__(self):
+        return '<Car ID %r>' % self.car_id
