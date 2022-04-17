@@ -83,6 +83,7 @@ class Car(db.Model):
 
 
 class Favourites(db.Model):
+    __tablename__ = 'favourites'
     id = db.Column(db.Integer, primary_key=True)
     car_id = db.Column(db.Integer)
     user_id = db.Column(db.Integer)
