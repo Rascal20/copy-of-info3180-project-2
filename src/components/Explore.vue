@@ -9,15 +9,15 @@
                     <form @submmit.prevent="searchCars" class="d-flex flex-row justify-content-around " >
                         <div class="">
                             <label for="make">Make</label> <br/>
-                            <input type="search" name="make" v-model="searchMake" />
+                            <input type="search" class="form-control form-control-lg" name="make" v-model="searchMake" />
                         </div>
 
                         <div class="">
                             <label for="model">Model</label> <br/>
-                            <input type="search" name="model" v-model="searchModel"/>
+                            <input type="search" class="form-control form-control-lg" name="model" v-model="searchModel"/>
                         </div>
 
-                        <button class="btn btn-primary btn-lg green" type="submit">Search</button>
+                        <button class="btn btn-primary btn-lg btn-block green" type="submit">Search</button>
                     </form>
               
                 </div>
