@@ -1,19 +1,28 @@
 <template>
-    <div class="card  search"> 
-        <form @submmit.prevent="searchCars" class="d-flex flex-row" >
-            <div class="">
-                <label for="make">Make</label>
-                <input type="search" name="make" v-model="searchMake" />
-            </div>
+        <div class="container py-5 h-100" >
+            <div class="row d-flex justify-content-center align-items-center h-100">
+               
+                <h1 class="text-left">Explore</h1>
+                <div class="card  search"> 
+                    
 
-            <div class="">
-                <label for="model">Model</label>
-                <input type="search" name="model" v-model="searchModel"/>
-            </div>
+                    <form @submmit.prevent="searchCars" class="d-flex flex-row justify-content-around " >
+                        <div class="">
+                            <label for="make">Make</label> <br/>
+                            <input type="search" name="make" v-model="searchMake" />
+                        </div>
 
-            <button class="btn btn-primary green" type="submit">Search</button>
-        </form>
-    </div>
+                        <div class="">
+                            <label for="model">Model</label> <br/>
+                            <input type="search" name="model" v-model="searchModel"/>
+                        </div>
+
+                        <button class="btn btn-primary btn-lg green" type="submit">Search</button>
+                    </form>
+              
+                </div>
+            </div>
+        </div>
 
     <div class="grid-container">
         <div v-for="car in cars" class="card shadow car-card">
@@ -120,7 +129,7 @@ export default {
 
 <style>
 .search{
-    margin-top: 60px;
+    padding:4em;
 }
 
 .grid-container {
