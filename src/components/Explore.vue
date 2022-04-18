@@ -1,6 +1,6 @@
 <template>
     <div class="card  search"> 
-        <form @submmit.prevent="searchCars" d-flex flex-row>
+        <form @submmit.prevent="searchCars" class="d-flex flex-row" >
             <div class="">
                 <label for="make">Make</label>
                 <input type="search" name="make" v-model="searchMake" />
@@ -11,7 +11,7 @@
                 <input type="search" name="model" v-model="searchModel"/>
             </div>
 
-            <button class="btn btn-primary" type="submit">Search</button>
+            <button class="btn btn-primary green" type="submit">Search</button>
         </form>
     </div>
 
