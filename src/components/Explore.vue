@@ -1,23 +1,23 @@
 <template>
         <div class="container py-5 h-100" >
-            <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100 mt-50">
                
                 <h1 class="text-left">Explore</h1>
                 <div class="card  search"> 
                     
 
-                    <form @submmit.prevent="searchCars" class="d-flex flex-row justify-content-around " >
-                        <div class="">
+                    <form @submmit.prevent="searchCars" class="d-flex flex-row justify-content-around justify-content-center align-items-center " >
+                        <div class="form-label">
                             <label for="make">Make</label> <br/>
                             <input type="search" class="form-control form-control-lg" name="make" v-model="searchMake" />
                         </div>
 
-                        <div class="">
+                        <div class="form-label">
                             <label for="model">Model</label> <br/>
                             <input type="search" class="form-control form-control-lg" name="model" v-model="searchModel"/>
                         </div>
 
-                        <button class="btn btn-primary btn-lg btn-block green" type="submit">Search</button>
+                        <button class="btn btn-primary btn-lg green btn_search" type="submit">Search</button>
                     </form>
               
                 </div>
@@ -131,7 +131,9 @@ export default {
 .search{
     padding:4em;
 }
-
+.btn_search{
+    height: 2.5em;
+}
 .grid-container {
     display: grid;
     grid-template-columns: auto auto auto;
@@ -143,5 +145,9 @@ export default {
 .car-card{
     max-width: 350px;
     max-height: fit-content;
+}
+
+.mt-50{
+    margin-top: 5em;
 }
 </style>
