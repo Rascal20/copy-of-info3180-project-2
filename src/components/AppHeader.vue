@@ -3,10 +3,10 @@
 
 
   
-      <nav class="navbar  navbar-dark bg-dark fixed-top ">
+      <nav class="navbar  navbar-dark bg-dark fixed-top  ">
       <div class="container-fluid">
         <a class="navbar-brand" href="/">
-        <img src="src/assets/logo.png" width="24" height="24" class="d-inline-block align-center" alt="lo">
+        <img src="src/assets/logo.png" width="24" height="24" class="d-inline-block align-center" alt="logo">
         United Auto Sales</a>
       <!--  <button
           class="navbar-toggler"
@@ -19,18 +19,39 @@
         >
           <span class="navbar-toggler-icon"></span>
         </button> -->
+
+        <!--  When Logged in -->
+         <div id="navbarSupportedContent">
+          <ul class="nav">
+            <li class="nav-item">
+              <RouterLink to="/cars/new" class="nav-link" >Add Car</RouterLink>
+            </li>
+            <li class="nav-item ">
+              <RouterLink class="nav-link" to="/explore">Explore</RouterLink>
+            </li>
+            <li class="nav-item ">
+              <RouterLink class="nav-link" to="/user">My Profile</RouterLink>
+            </li>
+
+            <li class="nav-item">
+              <RouterLink class="nav-link" to="/login">Logout</RouterLink>
+            </li>
+          </ul>
+
+       <!--  When Logged out -->
         <div id="navbarSupportedContent">
           <ul class="nav justify-content-end">
+            
             <li class="nav-item">
-              <RouterLink to="/" class="nav-link" >Home</RouterLink>
-            </li>
-            <li class="nav-item active">
               <RouterLink class="nav-link" to="/login">Login</RouterLink>
             </li>
-            <li class="nav-item active">
+            <li class="nav-item">
               <RouterLink class="nav-link" to="/register">Register</RouterLink>
             </li>
           </ul>
+        </div>
+
+
         </div>
       </div>
     </nav>
