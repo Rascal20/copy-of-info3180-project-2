@@ -256,7 +256,7 @@ def get_user(user_id):
         'email': user.email,
         'location': user.location,
         'biography': user.biography,
-        'date_joined': user.date
+        'date_joined': user.date_joined
     }
     return jsonify(data=data)
 
