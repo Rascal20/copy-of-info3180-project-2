@@ -164,7 +164,7 @@ export default {
 
 <style>
 .card-reg{
-  width: 60vw;
+ 
   border-radius: .5rem;
 }
 
@@ -175,13 +175,14 @@ export default {
 }
 
 .btn-block{
-  width: 40%;
+  width: 60%;
 }
 
 .form-group-reg{
     display:grid;
     grid-template-columns: 50% 50% ;
     column-gap: 2rem;
+
 }
 
 .bio{
@@ -189,7 +190,7 @@ export default {
 }
 
 .upload{
-    grid-area: 5;
+    grid-area: 5/span 2;
 }
 
 .reg{

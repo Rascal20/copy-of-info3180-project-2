@@ -1,4 +1,5 @@
 <template>
+   <!--  
     <div class="form container">
         <div v-if="success_msg" class="alert alert-success">
             {{ success_msg }}
@@ -44,7 +45,106 @@
 
         </form>
     </div>
+       -->
+
+    <section class="vh-80" >
+      
+      <div class="container py-5 h-100" >
+        <div class="row d-flex justify-content-center align-items-center h-100">
+         <div class="col-12 col-md-8 col-lg-6 col-xl-5 " > 
+
+           <h1 class="text-left">Add New Car</h1>
+             <div v-if="success_msg" class="alert alert-success">
+            {{ success_msg }}
+            </div>
+            <div v-if="errors.length!=0" class="alert alert-danger">
+                <ul>
+                    <li v-for="error in errors">{{ error }}</li>
+                </ul>
+            </div>
+            
+            <div class="card card-reg shadow-2-strong" >
+              
+              <div class="card-body p-5 text-left">
+    
+                <form  @submit.prevent="register" id="registerForm" method="POST" enctype="multipart/form-data" class="row g-3">
+                <div class="form-group-reg">
+
+                
+                
+                <div class="form-outline mb-4 ">
+                  <label class="form-label" >Make</label>
+                  <input type="text" class="form-control form-control-lg" name="make"/>
+                  
+                </div>
+    
+                <div class="form-outline mb-4 ">
+                  <label class="form-label" >Model</label>
+                  <input type="text"  class="form-control form-control-lg" name="model" />
+                 
+                </div>
+
+                <div class="form-outline mb-4">
+                  <label class="form-label" >Colour</label>
+                  <input type="text" class="form-control form-control-lg" name="colour"/>
+                  
+                </div>
+    
+                <div class="form-outline mb-4">
+                  <label class="form-label" >Year</label>
+                  <input type="text"  class="form-control form-control-lg" name="year" />
+                 
+                </div>
+
+                <div class="form-outline mb-4">
+                  <label class="form-label" >Price</label>
+                  <input type="text"  class="form-control form-control-lg" name="price" />
+                 
+                </div>
+
+                <div class="form-outline mb-4">
+                  <label class="form-label" >Car Type</label>
+                   <select type="text" class="form-control form-control-lg"  name="car_type" >
+                        <option value="suv">SUV</option> 
+                        <option value="sedan">SEDAN</option> 
+                        <option value="cvt">CVT Transmission </option>
+                    </select>
+                 
+                </div>
+
+                <div class="form-outline mb-4 trans">
+                    <label for="transmission">Transmission</label>
+                    <select type="text" class="form-control form-control-lg"  name="transmission" >
+                        <option value="manual">Manual</option> 
+                        <option value="automatic">Automatic</option> 
+                        <option value="cvt">CVT Transmission </option>
+                    </select>
+                </div>
+
+                <div class="form-outline mb-4 desc">
+                  <label class="form-label" >Description</label>
+                  <textarea type="password"  class="form-control form-control-lg" name="biography" ></textarea>
+                 
+                </div>
+                
+               <div class="form-outline mb-4 upload">
+                  <label class="form-label" >Upload Photo</label>
+                  <input type="file"  class="form-control form-control-lg" name="photo" style="border:none;" />
+                 
+                </div>
+    
+                <button class="btn btn-primary btn-lg btn-block green reg" type="submit">Save</button>
+                </div>
+                 </form>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        </div>
+        </section>
 </template>
+
 
 <script>
 export default {
@@ -135,5 +235,27 @@ export default {
 <style>
 .form{
     margin-top: 80px;
+}
+
+.form-group-reg{
+    display:grid;
+    grid-template-columns: 50% 50% ;
+    column-gap: 2rem;
+}
+
+.trans{
+    grid-area: 4;
+}
+
+.desc{
+    grid-area: 5/span 2;
+}
+
+.upload{
+    grid-area: 6;
+}
+
+.reg{
+    grid-area: 7;
 }
 </style>
