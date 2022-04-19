@@ -123,7 +123,7 @@
 
                 <div class="form-outline mb-4 desc">
                   <label class="form-label" >Description</label>
-                  <textarea type="password"  class="form-control form-control-lg" name="biography" ></textarea>
+                  <textarea type="password"  class="form-control form-control-lg" name="description" ></textarea>
                  
                 </div>
                 
@@ -233,9 +233,9 @@ export default {
 
 
 <style>
-.form{
+/* .form{
     margin-top: 80px;
-}
+} */
 
 .form-group-reg{
     display:grid;
@@ -252,7 +252,7 @@ export default {
 }
 
 .upload{
-    grid-area: 6;
+    grid-area: 6/span 2;
 }
 
 .reg{
