@@ -260,6 +260,27 @@ def get_user(user_id):
     }
     return jsonify(data=data)
 
+@app.route("/api/cars/<car_id>", methods=["GET"])
+@requires_auth
+def get_car(car_id):
+    car = Car.query.filter_by(id = car_id).first()
+    if car is None:
+        return jsonify({'message': "No such car found.", 'errors': []}), 404
+
+    data = {
+            'id': car.id,
+            'make': car.make,
+            'colour': car.colour,
+            'model': car.model,
+            'description': car.description,
+            'year': car.year,
+            'transmission': car.transmission,
+            'car_type': car.car_type,
+            'price': car.price,
+            'photo': car.photo,
+        }
+    return jsonify(data=data)
+
 @app.route("/api/users/<user_id>/favourites", methods=["GET"])
 @requires_auth
 def get_user_favourites(user_id):

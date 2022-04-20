@@ -99,4 +99,4 @@ class Favourites(db.Model):
             return str(self.id)  # python 3 support
 
     def __repr__(self):
-        return '<Car ID %r>' % self.car_id
+        return '<Favourite ID %r>' % self.id
