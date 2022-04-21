@@ -3,10 +3,12 @@
             <div class="row d-flex justify-content-center align-items-center h-100 mt-50">
                
                 <h1 class="text-left font-weight-bold">Explore</h1>
-                <div class="card  search"> 
+                <div v-if="success_msg" class="alert alert-success">
+                    {{ success_msg }}
                     
-
-                    <form @submmit.prevent="searchCars" class="d-flex flex-row justify-content-around justify-content-center align-items-center " >
+                </div>
+                <div class="card  search"> 
+                    <form @submit.prevent="searchCars" class="d-flex flex-row justify-content-around justify-content-center align-items-center " >
                         <div class="form-label">
                             <label for="make">Make</label> <br/>
                             <input type="search" class="form-control form-control-lg" name="make" v-model="searchMake" />
@@ -42,20 +44,21 @@
 
 <script>
 export default {
+    props: ['success_msg'],
     data() {
         return{
             csrf_token: '',
             auth_token: '',
             cars: [],
             searchMake: '',
-            searchModel: ''
+            searchModel: '',
+            success_msg: this.success_msg
         };
     },
 
     created(){
         this.getCsrfToken();
         this.getCars();
-        //this.getAuthToken();
     },
 
 
@@ -67,21 +70,8 @@ export default {
             .then((data) => {
                 console.log(data);
                 self.csrf_token = data.token;
-                console.log(self.other_data)
             })
         },
-
-        getAuthToken(){
-            let self = this;
-
-            fetch("/api/auth/login")
-                .then((response) => response.json())
-                .then((data) => {
-                    self.auth_token = data.token;
-                    console.log(data.token);
-                })
-        },
-
 
         getCars(){
             let self = this;
@@ -108,6 +98,7 @@ export default {
             let self = this;
 
             fetch('api/search?make='+ self.searchMake + '&model='+ self.searchModel,{
+                method: 'GET',
                 headers:{
                     'X-CSRFToken': this.csrf_token
                     //'Authorization': `Bearer ${import.meta.env.VITE_API_TOKEN}`,

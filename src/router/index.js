@@ -28,7 +28,8 @@ const router = createRouter({
     {
       path: '/explore',
       name: 'explore',
-      component: () => import('../views/ExploreView.vue')
+      component: () => import('../views/ExploreView.vue'),
+      props: true
     },
     {
       path: '/users/:user_id',
