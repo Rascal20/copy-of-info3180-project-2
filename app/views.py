@@ -127,7 +127,6 @@ def registerUser():
         #userDetails = request.get_json()
         username = form.username.data
         fullname = form.fullName.data
-        username = form.username.data
         email = form.email.data
         location = form.location.data
         bio = form.biography.data

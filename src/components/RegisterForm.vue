@@ -155,7 +155,7 @@ export default {
             .then((response) => response.json())
             .then((data) => {
                 console.log(data);
-                self.csrf_token = data.token;
+                self.csrf_token = data.csrf_token;
                 })
         }
     }
