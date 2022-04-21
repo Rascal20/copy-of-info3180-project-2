@@ -3,8 +3,17 @@ export default {
     data() {
         return {
             message: "Hello World! This is Lab 7"
-        };
+        }
     },
+    methods: {
+        goToRegister(){
+            this.$router.push('/register');
+        },
+        goToLogin(){
+            this.$router.push('/login');
+
+        }
+    }
 }
 </script>
 
@@ -15,8 +24,8 @@ export default {
             <p class="text-secondary">United Auto Sales provides the fastest easiest and most user friendly 
             way to buy or sell cars online. Find a Great Price on the Vehicle You Want</p>
            
-            <button class="btn btn-primary btn-lg btn-block">Register</button>
-            <button class="btn green btn-primary btn-lg btn-block ">Login</button>
+            <button v-on:click="goToRegister()" class="btn btn-primary btn-lg btn-block">Register</button>
+            <button v-on:click="goToLogin()" class="btn green btn-primary btn-lg btn-block ">Login</button>
         
         </div>
         <div class="right">
