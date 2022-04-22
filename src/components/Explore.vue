@@ -1,5 +1,5 @@
 <template>
-        <div class="container py-5 h-100" >
+    <div class="container py-5 h-100 explore" >
             <div class="row d-flex justify-content-center align-items-center h-100 mt-50">
                
                 <h1 class="text-left font-weight-bold">Explore</h1>
@@ -24,20 +24,30 @@
               
                 </div>
             </div>
-        </div>
+        
 
-    <div class="grid-container">
-        <div v-for="car in cars" class="card shadow car-card">
-            <img :src="'uploads/' + car.photo" class="card-img-top"/>
-            <div class="card-body">
-                <p class="card-title"> {{ car.year }}</p>
-                <p> {{ car.model }}</p>
-                <p> {{ car.price }}</p>
-                <p> {{ car.make }}</p>
+        <div class=" grid-container">
+
+             <div  v-for="car in cars" class="card shadow car-card">
+                <!-- <img class="card-img-top" src="/src/assets/homeimg.jpeg"> -->
+                <img :src="'uploads/' + car.photo" class="card-img-top"  alt="Card image cap"/>
+                <div class="card-body ">
+                  <h5 class="card-title"> {{ car.year }} {{ car.model }} <span class=" text-light price" >  <img src="/src/assets/tag.png" > {{ car.price }} </span> </h5>
+                    <p class="text-secondary"> {{ car.make }} </p>
+
+                   <!--  <h5 class="card-title ">Year Model <span class=" text-light price " >    <img src="/src/assets/tag.png" > $389506</span></h5>
+                    
+                    <p class="text-secondary">Make</p> -->
+                </div>
+
+             <button @click="$router.push({name:'view-car', params: {car_id: car.id},})" class="btn btn-primary card_btn"> View more details </button>
+               <!--  <button class="btn btn-primary card_btn">View more details</button> -->
             </div>
-
-            <button @click="$router.push({name:'view-car', params: {car_id: car.id},})" class="btn btn-primary"> View more details </button>
+         
+   
+        
         </div>
+
     </div>
     
 </template>
@@ -119,26 +129,48 @@ export default {
 
 
 <style>
-.search{
-    padding:4em;
+
+.explore{
+    width: 65%;
 }
+
+.search{
+    padding: 3em;
+    border-radius: .5em;
+}
+
 .btn_search{
+    margin-top: .65em;
     height: 2.5em;
 }
 .grid-container {
     display: grid;
-    grid-template-columns: auto auto auto;
-    padding: 10px;
-    gap: 10px 10px;
-    width: 100%
+    grid-template-columns: 20vw 20vw 20vw;
+    margin-top: 3em;
+    gap: 1em;
+    width: 100%;
+    
 }
 
-.car-card{
-    max-width: 350px;
-    max-height: fit-content;
+
+.card_btn{
+    margin:.8em;
+}
+
+.card{
+    max-width: 100%;
+    border-radius: .4em;
+
 }
 
 .mt-50{
-    margin-top: 5em;
+    margin-top: 1em;
+}
+
+.price{
+    background-color: rgb(71, 173, 111);
+    padding: .2em .5em;
+    border-radius: .2em;
+    margin-left:.5em;
 }
 </style>
