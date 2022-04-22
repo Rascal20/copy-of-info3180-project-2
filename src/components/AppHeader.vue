@@ -1,8 +1,5 @@
 <template>
   <header>
-
-
-  
       <nav class="navbar  navbar-dark bg-dark fixed-top ">
       <div class="container-fluid">
         <a class="navbar-brand" href="/">
@@ -20,8 +17,19 @@
           <span class="navbar-toggler-icon"></span>
         </button> -->
 
+        <!--  When Logged out -->
+        <div id="navbarSupportedContent" v-if="isLoggedIn()">
+          <ul class="nav justify-content-end">
+            <li class="nav-item">
+              <RouterLink class="nav-link" to="/login">Login</RouterLink>
+            </li>
+            <li class="nav-item">
+              <RouterLink class="nav-link" to="/register">Register</RouterLink>
+            </li>
+          </ul>
+        </div>
         <!--  When Logged in -->
-         <div id="navbarSupportedContent" >
+          <div id="navbarSupportedContent" v-else>
           <ul class="nav ">
             <li class="nav-item">
               <RouterLink to="/cars/new" class="nav-link" >Add Car</RouterLink>
@@ -34,23 +42,12 @@
             </li>
 
             <li class="nav-item">
-              <RouterLink class="nav-link" to="/login">Logout</RouterLink>
+              <RouterLink @click="logout()" class="nav-link" to="/logout">Logout</RouterLink>
             </li>
           </ul>
+          </div>
+        </div>
 
-       <!--  When Logged out -->
-       <div id="navbarSupportedContent">
-          <ul class="nav justify-content-end">
-            <li class="nav-item">
-              <RouterLink class="nav-link" to="/login">Login</RouterLink>
-            </li>
-            <li class="nav-item">
-              <RouterLink class="nav-link" to="/register">Register</RouterLink>
-            </li>
-          </ul>
-        </div>
-        </div>
-        </div>
 </nav>
  
 
@@ -63,13 +60,23 @@ export default {
     data() {
       return {}        
     },
-    created() {
-      this.checkLog();
-    },
     methods: {
-      checkLog() {
-        let check = localStorage.getItem('user');
-        console.log(check);
+      isLoggedIn() {
+        if (localStorage.getItem('user')===null){
+          console.log('User is not Logged in!');
+          return true;
+        }
+      },
+      logout(){
+        let self = this;
+        fetch("/api/auth/logout", {
+                method: 'POST',
+                headers: {
+                  'Authorization': `Bearer` + localStorage.getItem('user') 
+                }
+            })
+        localStorage.clear();
+        self.$router.push('/');
       }
     }
 }
