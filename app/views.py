@@ -45,7 +45,7 @@ def requires_auth(f):
         except jwt.DecodeError:
             return jsonify({'code': 'token_invalid_signature', 'description': 'Token signature is invalid'}), 401
 
-        g.current_user =  payload
+        f.current_user =  payload
         return f(*args, **kwargs)
 
     return decorated
@@ -91,7 +91,7 @@ def load_user(id):
 
 @app.route('/api/csrf-token', methods=['GET'])
 def get_csrf():
-    return jsonify({'token': generate_csrf()})
+    return jsonify({'csrf_token': generate_csrf()})
 
 ###
 # The functions below should be applicable to all Flask apps.
@@ -127,7 +127,6 @@ def registerUser():
         #userDetails = request.get_json()
         username = form.username.data
         fullname = form.fullName.data
-        username = form.username.data
         email = form.email.data
         location = form.location.data
         bio = form.biography.data
@@ -228,8 +227,8 @@ def favourite(car_id):
 @app.route("/api/cars/<car_id>/favourite/remove", methods=["POST"])
 @requires_auth
 def remove_favourite(car_id):
-
-    fav = Favourites.query.filter(Favourites.car_id == car_id).filter(Favourites.user_id == g.current_user["id"] ).first()
+    user_id = parse_userId(request.headers.get('Authorization'))
+    fav = Favourites.query.filter(Favourites.car_id == car_id).filter(Favourites.user_id == user_id ).first()
 
     db.session.delete(fav)
     db.session.commit()
@@ -260,6 +259,27 @@ def get_user(user_id):
     }
     return jsonify(data=data)
 
+@app.route("/api/cars/<car_id>", methods=["GET"])
+@requires_auth
+def get_car(car_id):
+    car = Car.query.filter_by(id = car_id).first()
+    if car is None:
+        return jsonify({'message': "No such car found.", 'errors': []}), 404
+
+    data = {
+            'id': car.id,
+            'make': car.make,
+            'colour': car.colour,
+            'model': car.model,
+            'description': car.description,
+            'year': car.year,
+            'transmission': car.transmission,
+            'car_type': car.car_type,
+            'price': car.price,
+            'photo': car.photo,
+        }
+    return jsonify(data=data)
+
 @app.route("/api/users/<user_id>/favourites", methods=["GET"])
 @requires_auth
 def get_user_favourites(user_id):
@@ -288,6 +308,38 @@ def get_user_favourites(user_id):
             'user_id': car.userid
         })
     return jsonify(data=data)
+
+@app.route("/api/search", methods=["GET"])
+@requires_auth
+def findCars():
+    searchParams = request.args
+    make = searchParams.get("make")
+    model = searchParams.get("model")
+    if make and model:
+        cars = Car.query.filter(Car.make.like(make),
+                                Car.model.like(model))
+    elif make:
+        cars = Car.query.filter(Car.make.like(make))
+    elif model:
+        cars = Car.query.filter(Car.model.like(model))
+    else:
+        cars = Car.query.all()
+    carLst = []
+    for car in cars:
+        carDct = {
+            'id': car.id,
+            'make': car.make,
+            'colour': car.colour,
+            'model': car.model,
+            'description': car.description,
+            'year': car.year,
+            'transmission': car.transmission,
+            'car_type': car.car_type,
+            'price': car.price,
+            'photo': car.photo,
+        }
+        carLst.append(carDct)
+    return jsonify(cars=carLst), 200
 
 
 @app.after_request

@@ -54,8 +54,9 @@
          <div class="col-12 col-md-8 col-lg-6 col-xl-5 " > 
 
            <h1 class="text-left">Add New Car</h1>
-             <div v-if="success_msg" class="alert alert-success">
-            {{ success_msg }}
+            <div v-if="success_msg" class="alert alert-success">
+                {{ success_msg }}
+                
             </div>
             <div v-if="errors.length!=0" class="alert alert-danger">
                 <ul>
@@ -67,10 +68,10 @@
               
               <div class="card-body p-5 text-left">
     
-                <form  @submit.prevent="register" id="registerForm" method="POST" enctype="multipart/form-data" class="row g-3">
+                <form  @submit.prevent="addCar" id="carForm" method="POST" enctype="multipart/form-data" class="row g-3">
                 <div class="form-group-reg">
 
-                
+              
                 
                 <div class="form-outline mb-4 ">
                   <label class="form-label" >Make</label>
@@ -160,7 +161,7 @@ export default {
 
     created(){
         this.getCsrfToken();
-        this.getAuthToken();
+        //this.getAuthToken();
         //this.getCarTypes();
     },
 
@@ -176,7 +177,7 @@ export default {
                 body: form_data,
                 headers: {
                     'X-CSRFToken': this.csrf_token,
-                    'Authorization': `Bearer ` + this.auth_token
+                    //'Authorization': `Bearer ` + this.auth_token
                 }
 			})
 			.then(function (response){
@@ -186,6 +187,7 @@ export default {
                 console.log(data);
                 if(data.message != undefined){
                     self.success_msg= data.message;
+                    self.$router.push({name:'explore', params:{succes_msg: data.message}})
                 }else{
                     self.errors = data;
                 }
@@ -201,23 +203,11 @@ export default {
                 .then((response) => response.json())
                 .then((data) => {
                     this.csrf_token = data.token;
-                    //console.log(data);
+                    console.log(data);
                 })
         },
         
-        getAuthToken(){
-            let self = this;
-
-            fetch("/api/auth/login")
-                .then((response) => response.json())
-                .then((data) => {
-                    self.auth_token = data.token;
-                    console.log(data.token);
-                })
-        }
-
-
-        /*getCarTypes(){
+       /*getCarTypes(){
             let self=this;
             fetch("/api/car_types")
                 .then((response) => response.json())
