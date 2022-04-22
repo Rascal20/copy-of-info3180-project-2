@@ -138,9 +138,8 @@ def registerUser():
             return jsonify(message="User already exists."), 409
         #save photo
         photo_fn = secure_filename(photo.filename)
-        photo.save(
-                os.path.join(os.getcwd(), app.config['UPLOAD_FOLDER'], photo_fn)
-            )
+        #photo.save(os.path.join(os.getcwd(), app.config['UPLOAD_FOLDER'], photo_fn))
+        photo.save(os.path.join(app.config['UPLOAD_FOLDER'], photo_fn))
         newUser = UserProfile(name=fullname, password=password,
                                 username=username, email=email,
                                 biography=bio, location=location, photo=photo_fn )
