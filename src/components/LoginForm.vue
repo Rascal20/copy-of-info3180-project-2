@@ -33,7 +33,7 @@
               
               <div class="card-body p-5 text-left">
     
-                <form  @submit.prevent="loginUser" id="loginForm">
+                <form  @submit.prevent="loginUser" id="loginForm" enctype="multipart/form-data">
                     <div class="form-group">
                 
                 <div class="form-outline mb-4">
@@ -70,50 +70,46 @@ export default {
             return {
                 csrf_token: ''
             };
-    },methods:{
+    },
+    created() {
+            this.getCsrfToken();
+    },
+
+    methods: {
         loginUser(){
+            let self = this;
             let loginForm = document.getElementById('loginForm');
             let form_data = new FormData(loginForm);
-            console.log(this.errors)
             fetch("/api/auth/login", {
                 method: 'POST',
                 body: form_data,
                 headers: {
                     'X-CSRFToken': this.csrf_token
                 }
-                })
-               .then(function (response) {
-                    return response.json();
-                    })
-                    .then(function (data) {
-                        if ('errors' in data){
-                            this.isSuccess = false
-                        }
-                        
-                    //this.successmessage = "File Uploaded Successfully"
-                    // display a success message
-                    console.log(response);
-                })
-                .catch(function (error) {
-                //this.errormessage = "Something went wrong"
+            })
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                // display a success message
+                console.log(data);
+                localStorage.setItem('user', data);
+                self.$router.push('/explore');
+            })
+            .catch(function (error) {
                 console.log(error);
-                });
-            },
-            getCsrfToken() {
-                let self = this;
-                fetch('/api/csrf-token')
-                .then((response) => response.json())
-                .then((data) => {
-                    console.log(data);
-                    self.csrf_token = data.token;
-                    console.log(self.csrf_token);
-                    console.log(self.other_data)
-                })
-            }
-    },
-     created() {
-            this.getCsrfToken();
-     }
+            });  
+        },
+        getCsrfToken() {
+            let self = this;
+            fetch('/api/csrf-token')
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                self.csrf_token = data.csrf_token;
+            })
+        }
+    }
 }
 </script>
 

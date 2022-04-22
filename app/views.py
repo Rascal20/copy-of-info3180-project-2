@@ -91,7 +91,7 @@ def load_user(id):
 
 @app.route('/api/csrf-token', methods=['GET'])
 def get_csrf():
-    return jsonify({'token': generate_csrf()})
+    return jsonify({'csrf_token': generate_csrf()})
 
 ###
 # The functions below should be applicable to all Flask apps.
@@ -127,7 +127,6 @@ def registerUser():
         #userDetails = request.get_json()
         username = form.username.data
         fullname = form.fullName.data
-        username = form.username.data
         email = form.email.data
         location = form.location.data
         bio = form.biography.data
@@ -139,9 +138,8 @@ def registerUser():
             return jsonify(message="User already exists."), 409
         #save photo
         photo_fn = secure_filename(photo.filename)
-        photo.save(
-                os.path.join(os.getcwd(), app.config['UPLOAD_FOLDER'], photo_fn)
-            )
+        #photo.save(os.path.join(os.getcwd(), app.config['UPLOAD_FOLDER'], photo_fn))
+        photo.save(os.path.join(app.config['UPLOAD_FOLDER'], photo_fn))
         newUser = UserProfile(name=fullname, password=password,
                                 username=username, email=email,
                                 biography=bio, location=location, photo=photo_fn )
