@@ -39,13 +39,8 @@
           </ul>
 
        <!--  When Logged out -->
-        <div id="navbarSupportedContent">
-<<<<<<< HEAD
-          <ul class="nav justify-content-end" >
-=======
+       <div id="navbarSupportedContent">
           <ul class="nav justify-content-end">
-            
->>>>>>> 6130fb65c6d0d2d4820049b915552a93e42b06b4
             <li class="nav-item">
               <RouterLink class="nav-link" to="/login">Login</RouterLink>
             </li>
@@ -54,15 +49,9 @@
             </li>
           </ul>
         </div>
-<<<<<<< HEAD
         </div>
-=======
-
-
         </div>
-      </div>
->>>>>>> 6130fb65c6d0d2d4820049b915552a93e42b06b4
-    </nav>
+</nav>
  
 
   </header>
@@ -70,8 +59,6 @@
 
 <script>
 import { RouterLink } from "vue-router";
-import LoginForm from '@/components/LoginForm.vue'
-
 export default {
     data() {
       return {}        
@@ -83,14 +70,10 @@ export default {
       checkLog() {
         let check = localStorage.getItem('user');
         console.log(check);
-
       }
     }
 }
 </script>
 
 <style>
-
-
-
 </style>
