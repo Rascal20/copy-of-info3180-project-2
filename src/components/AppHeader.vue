@@ -20,7 +20,7 @@
           <span class="navbar-toggler-icon"></span>
         </button> -->
         <div id="navbarSupportedContent">
-          <ul class="nav justify-content-end">
+          <ul class="nav justify-content-end" >
             <li class="nav-item">
               <RouterLink to="/" class="nav-link" >Home</RouterLink>
             </li>
@@ -32,7 +32,7 @@
             </li>
           </ul>
         </div>
-      </div>
+        </div>
     </nav>
  
 
@@ -41,6 +41,23 @@
 
 <script>
 import { RouterLink } from "vue-router";
+import LoginForm from '@/components/LoginForm.vue'
+
+export default {
+    data() {
+      return {}        
+    },
+    created() {
+      this.checkLog();
+    },
+    methods: {
+      checkLog() {
+        let check = localStorage.getItem('user');
+        console.log(check);
+
+      }
+    }
+}
 </script>
 
 <style>
