@@ -91,7 +91,7 @@ def load_user(id):
 
 @app.route('/api/csrf-token', methods=['GET'])
 def get_csrf():
-    return jsonify({'token': generate_csrf()})
+    return jsonify({'csrf_token': generate_csrf()})
 
 ###
 # The functions below should be applicable to all Flask apps.

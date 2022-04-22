@@ -52,8 +52,6 @@
          <div class="col-12 col-md-8 col-lg-6 col-xl-5 " > 
 
            <h1 class="text-left">Register New User</h1>
-            <div  v-if="isSuccess">
-             </div>
             <div class="card card-reg shadow-2-strong" >
               
               <div class="card-body p-5 text-left">
@@ -119,10 +117,10 @@
 
 <script>
 export default {
-    data(){
+    data() {
         return{
             csrf_token: ''
-        }
+        };
     },
     created() {
         this.getCsrfToken();
@@ -143,7 +141,7 @@ export default {
             })
             .then(function (data) {
                 // display a success message
-            console.log(data);
+                console.log(data);
             })
             .catch(function (error) {
                 console.log(error);
