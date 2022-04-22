@@ -3,10 +3,10 @@
 
 
   
-      <nav class="navbar  navbar-dark bg-dark fixed-top  ">
+      <nav class="navbar  navbar-dark bg-dark fixed-top ">
       <div class="container-fluid">
         <a class="navbar-brand" href="/">
-        <img src="src/assets/logo.png" width="24" height="24" class="d-inline-block align-center" alt="logo">
+        <img src="/src/assets/logo.png" width="24" height="24" class="d-inline-block align-center" alt="logo">
         United Auto Sales</a>
       <!--  <button
           class="navbar-toggler"
@@ -21,8 +21,8 @@
         </button> -->
 
         <!--  When Logged in -->
-         <div id="navbarSupportedContent">
-          <ul class="nav">
+         <div id="navbarSupportedContent" >
+          <ul class="nav ">
             <li class="nav-item">
               <RouterLink to="/cars/new" class="nav-link" >Add Car</RouterLink>
             </li>
