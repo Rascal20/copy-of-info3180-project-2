@@ -160,7 +160,7 @@ def parse_userId(auth_header):
 def cars():
     if request.method == 'POST':
         form = CarForm()
-        if form.validate_on_submit:
+        if form.validate_on_submit():
             make = form.make.data
             colour = form.colour.data
             model = form.model.data
