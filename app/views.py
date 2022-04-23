@@ -80,7 +80,7 @@ def login():
                 errors.append('Unauthorized Username or Password provided.')
         return jsonify(errors=form_errors(form) + errors)
 
-@app.route("/api/auth/logout")
+@app.route("/api/auth/logout", methods=['POST'])
 @requires_auth
 def logout():
     return jsonify(data={'message': "You've been successfully logged out."})
@@ -206,9 +206,9 @@ def cars():
 @app.route("/api/cars/<car_id>/favourite", methods=["POST"])
 @requires_auth
 def favourite(car_id):
-    json_favourite = request.get_json(silent=True)
-    cid = json_favourite.get("car_id")
-    uid = json_favourite.get("user_id")
+    json_favourite = request.json()
+    cid = json_favourite["car_id"]
+    uid = json_favourite["user_id"]
 
     isFav = Favourites.query.filter(Favourites.car_id == cid).filter(Favourites.user_id == uid ).first()
    

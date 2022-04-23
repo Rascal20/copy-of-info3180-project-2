@@ -94,7 +94,7 @@ export default {
                 // display a success message
                 console.log(data);
                 localStorage.setItem('user', data);
-                self.$router.push('/');
+                self.$router.push('/explore');
             })
             .catch(function (error) {
                 console.log(error);
