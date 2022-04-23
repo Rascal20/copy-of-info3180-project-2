@@ -5,21 +5,8 @@
         <a class="navbar-brand" href="/">
         <img src="/src/assets/logo.png" width="24" height="24" class="d-inline-block align-center" alt="logo">
         United Auto Sales</a>
-      <!--  <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button> -->
-
-        <!--  When Logged out -->
-        <div id="navbarSupportedContent" v-if="isLoggedIn()">
-          <ul class="nav justify-content-end">
+        <div id="navbarSupportedContent" v-if="isLoggedIn()==true">
+          <ul class="nav justify-content-end" >
             <li class="nav-item">
               <RouterLink class="nav-link" to="/login">Login</RouterLink>
             </li>
@@ -28,9 +15,8 @@
             </li>
           </ul>
         </div>
-        <!--  When Logged in -->
-          <div id="navbarSupportedContent" v-else>
-          <ul class="nav ">
+        <div id="navbarSupportedContent" v-else>
+          <ul class="nav justify-content-end">
             <li class="nav-item">
               <RouterLink to="/cars/new" class="nav-link" >Add Car</RouterLink>
             </li>
@@ -45,8 +31,8 @@
               <RouterLink @click="logout()" class="nav-link" to="/logout">Logout</RouterLink>
             </li>
           </ul>
-          </div>
         </div>
+      </div>
 
 </nav>
  
@@ -62,9 +48,13 @@ export default {
     },
     methods: {
       isLoggedIn() {
-        if (localStorage.getItem('user')===null){
+        if (localStorage.getItem('user') === null){
           console.log('User is not Logged in!');
           return true;
+        }
+        else{
+          console.log('User is logged in!');
+          return false;
         }
       },
       logout(){
