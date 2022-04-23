@@ -1,9 +1,6 @@
 <template>
 
-<div v-if="error" class="error">
-    <h1>{{ error }}</h1>
-</div>
-<div v-else-if="user != undefined" class="container py-5 h-100 profile-cont">
+<div class="container py-5 h-100 profile-cont">
 
 <!-- <div class="container py-5 h-100 explore" >
     <div class="card">
@@ -55,7 +52,7 @@
        <div v-else-if="favourites.length" class="grid-container">
         <div  v-for="car in favourites" class="card shadow car-card">
               
-                <img :src="'uploads/' + car.photo" class="card-img-top"  alt="Card image cap"/>
+                <img :src="car.photo" class="card-img-top"  alt="Card image cap"/>
                 <div class="card-body ">
                   <h5 class="card-title"> {{ car.year }} {{ car.model }} <span class=" text-light price" >  <img src="/src/assets/tag.png" > {{ car.price }} </span> </h5>
                     <p class="text-secondary"> {{ car.make }} </p>
@@ -134,7 +131,7 @@ export default {
                 method: 'GET',
                 headers: {
                     'X-CSRFToken': this.csrf_token,
-                    //'Authorization': `Bearer ` + auth_token
+                    'Authorization': `Bearer ` + localStorage.getItem('auth_token')
                 }
             })
                 .then(function(response) {
@@ -162,7 +159,7 @@ export default {
                 method: 'GET',
                 headers: {
                     'X-CSRFToken': this.csrf_token,
-                    //'Authorization': `Bearer ` + auth_token
+                    'Authorization': `Bearer ` + localStorage.getItem('auth_token')
                 }
             })
                 .then(function(response) {

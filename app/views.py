@@ -304,7 +304,7 @@ def get_user_favourites(user_id):
             'type': car.car_type,
             'price': car.price,
             'photo': "/uploads/"+car.photo,
-            'user_id': car.userid
+            'user_id': car.user_id
         })
     return jsonify(data=data)
 
