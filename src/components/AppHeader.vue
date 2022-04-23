@@ -44,7 +44,12 @@
 import { RouterLink } from "vue-router";
 export default {
     data() {
-      return {}        
+      return {
+        csrf_token: ''
+      };     
+    },
+    created() {
+            this.getCsrfToken();
     },
     methods: {
       isLoggedIn() {
@@ -61,12 +66,22 @@ export default {
         let self = this;
         fetch("/api/auth/logout", {
                 method: 'POST',
+                'X-CSRFToken': this.csrf_token,
                 headers: {
                   'Authorization': `Bearer` + localStorage.getItem('user') 
                 }
             })
         localStorage.clear();
         self.$router.push('/');
+      },
+      getCsrfToken() {
+            let self = this;
+            fetch('/api/csrf-token')
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                self.csrf_token = data.csrf_token;
+            })
       }
     }
 }
