@@ -1,25 +1,72 @@
 <template>
-<div v-if="error" class="error">
+<!-- <div v-if="error" class="error">
     <h1>{{ error }}</h1>
-</div>
-<div v-else-if="user != undefined" class="container">
+</div> -->
+<!-- <div v-else-if="user != undefined" class="container"> -->
+<!-- <div class="container py-5 h-100 explore" >
     <div class="card">
         <img :src="user.photo" class="card-img-left"/>
-        <p> {{ user.name }} </p>
-        <p> {{ user.username }}</p>
-        <p> {{ user.biography }}</p>
+            <div>
+            <p> {{ user.name }} </p>
+            <p> {{ user.username }}</p>
+            <p> {{ user.biography }}</p>
 
-        <p>Email: {{ user.email }}</p>
-        <p>Location:  {{ user.location }}</p>
-        <p>Joined:  {{ user.date_joined }}</p>
+            <p>Email: {{ user.email }}</p>
+            <p>Location:  {{ user.location }}</p>
+            <p>Joined:  {{ user.date_joined }}</p>
+            </div>
+        </div>
 
+    </div> -->
+<div class="container py-5 h-100 profile-cont" >
+    <div class="d-flex  profile">
+        <img class="profile_img" src="/src/assets/homeimg.jpeg">
+        <!-- <img :src="user.photo" class="card-img-left"/> -->
+        <div class="profile_data ">
+            <h1> Danica Patrick </h1>
+            <h3 class="text-secondary"> @dpatrick</h3>
+            <p class="text-secondary">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, 
+                totam rem aperiam, eaque ipsa quae ab illo
+                inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo</p>
+            <div class="d-flex">
+            <div class="text-secondary">
+                <p >Email:</p>
+                <p >Location:</p>
+                <p >Joined: </p>
+            </div>
+            <div class="mr">
+                <p >dpat@gmail </p> 
+                <p >dpat@gmail </p> 
+                <p >dpat@gmail </p> 
+            </div>
+            </div>
+
+        </div>
     </div>
 
+    
     <h2>Cars Favourited</h2> 
-    <div v-if="error" class="error">
+    
+     <div v-if="error" class="error">
         <h1>{{ error }}</h1>
-    </div>
-    <div v-else-if="favourites.length" class="grid-container">
+    </div> 
+
+       <div v-else-if="favourites.length" class="grid-container">
+        <div  v-for="car in favourites" class="card shadow car-card">
+              
+                <img :src="'uploads/' + car.photo" class="card-img-top"  alt="Card image cap"/>
+                <div class="card-body ">
+                  <h5 class="card-title"> {{ car.year }} {{ car.model }} <span class=" text-light price" >  <img src="/src/assets/tag.png" > {{ car.price }} </span> </h5>
+                    <p class="text-secondary"> {{ car.make }} </p>
+
+                </div>
+
+            <button @click="$router.push({name:'view-car', params: {car_id: car.id},})" class="btn btn-primary"> View more details </button>            
+            </div>
+         
+        </div> 
+
+   <!--  <div v-else-if="favourites.length" class="grid-container">
         <div v-for="car in favourites" class="card shadow car-card">
             <img :src="car.photo" class="card-img-top"/>
             <div class="card-body">
@@ -31,7 +78,9 @@
 
             <button @click="$router.push({name:'view-car', params: {car_id: car.id},})" class="btn btn-primary"> View more details </button>
         </div>
-    </div>
+    </div> -->
+
+
 </div>
 </template>
 
@@ -149,16 +198,65 @@ export default {
     margin-top: 60px;
 }
 
-.grid-container {
-    display: grid;
-    grid-template-columns: auto auto auto;
-    padding: 10px;
-    gap: 10px 10px;
-    width: 100%
+.profile-cont{
+    width: 65%;
 }
 
-.car-card{
-    max-width: 350px;
-    max-height: fit-content;
+.profile{
+    background-color:white;
+    padding: 2em;
+    margin-bottom: 3em;
 }
+
+
+.d-flex{
+    gap: 2em;
+}
+
+.profile_img{
+    max-width:  15vw;
+    max-height:15vw;
+    object-fit:cover;
+    border-radius: 100%;
+    align-self: top;
+}
+
+.profile_data{
+    padding: 1em;
+}
+
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 20vw 20vw 20vw;
+    margin-top: 1em;
+    gap: 1em;
+    width: 100%;
+    
+}
+
+.card_btn{
+    margin:.8em;
+}
+
+.card{
+    max-width: 100%;
+    border-radius: .4em;
+
+}
+
+.mt-50{
+    margin-top: 1em;
+}
+
+.price{
+    background-color: rgb(71, 173, 111);
+    padding: .2em .5em;
+    border-radius: .2em;
+    margin-left:.5em;
+}
+
+
+
+
 </style>
