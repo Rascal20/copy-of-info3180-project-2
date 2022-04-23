@@ -1,8 +1,10 @@
 <template>
-<!-- <div v-if="error" class="error">
+
+<div v-if="error" class="error">
     <h1>{{ error }}</h1>
-</div> -->
-<!-- <div v-else-if="user != undefined" class="container"> -->
+</div>
+<div v-else-if="user != undefined" class="container py-5 h-100 profile-cont">
+
 <!-- <div class="container py-5 h-100 explore" >
     <div class="card">
         <img :src="user.photo" class="card-img-left"/>
@@ -18,16 +20,15 @@
         </div>
 
     </div> -->
-<div class="container py-5 h-100 profile-cont" >
+
+
     <div class="d-flex  profile">
-        <img class="profile_img" src="/src/assets/homeimg.jpeg">
+        <img class="profile_img" :src="user.photo" >
         <!-- <img :src="user.photo" class="card-img-left"/> -->
         <div class="profile_data ">
-            <h1> Danica Patrick </h1>
-            <h3 class="text-secondary"> @dpatrick</h3>
-            <p class="text-secondary">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, 
-                totam rem aperiam, eaque ipsa quae ab illo
-                inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo</p>
+            <h1> {{ user.name }}</h1>
+            <h3 class="text-secondary">{{ user.username }}</h3>
+            <p class="text-secondary">  {{ user.biography }} </p>
             <div class="d-flex">
             <div class="text-secondary">
                 <p >Email:</p>
@@ -35,9 +36,9 @@
                 <p >Joined: </p>
             </div>
             <div class="mr">
-                <p >dpat@gmail </p> 
-                <p >dpat@gmail </p> 
-                <p >dpat@gmail </p> 
+                <p >{{ user.email }} </p> 
+                <p > {{ user.location }} </p> 
+                <p > {{ user.date_joined }} </p> 
             </div>
             </div>
 
