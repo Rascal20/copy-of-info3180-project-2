@@ -58,11 +58,9 @@ export default {
     data() {
         return{
             csrf_token: '',
-            auth_token: '',
             cars: [],
             searchMake: '',
             searchModel: '',
-            success_msg: this.success_msg
         };
     },
 
@@ -89,7 +87,7 @@ export default {
                 method: 'GET',
                 headers: {
                     'X-CSRFToken': self.csrf_token,
-                    //'Authorization': `Bearer ` + self.auth_token
+                    'Authorization': `Bearer ` + localStorage.getItem('auth_token')
                 }
             })
                 .then(function(response) {
@@ -110,8 +108,8 @@ export default {
             fetch('api/search?make='+ self.searchMake + '&model='+ self.searchModel,{
                 method: 'GET',
                 headers:{
-                    'X-CSRFToken': this.csrf_token
-                    //'Authorization': `Bearer ${import.meta.env.VITE_API_TOKEN}`,
+                    'X-CSRFToken': this.csrf_token,
+                    'Authorization': `Bearer ` + localStorage.getItem('auth_token')
                 }
             })
                 .then(function(response){
