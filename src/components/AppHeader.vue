@@ -66,9 +66,9 @@ export default {
         let self = this;
         fetch("/api/auth/logout", {
                 method: 'POST',
-                'X-CSRFToken': this.csrf_token,
                 headers: {
-                  'Authorization': `Bearer` + localStorage.getItem('user') 
+                  'X-CSRFToken': this.csrf_token,
+                  'Authorization': 'Bearer ' + this.csrf_token
                 }
             })
         localStorage.clear();

@@ -80,7 +80,7 @@ def login():
                 errors.append('Unauthorized Username or Password provided.')
         return jsonify(errors=form_errors(form) + errors)
 
-@app.route("/api/auth/logout", methods=['POST'])
+@app.route("/api/auth/logout", methods=["POST"])
 @requires_auth
 def logout():
     return jsonify(data={'message': "You've been successfully logged out."})
