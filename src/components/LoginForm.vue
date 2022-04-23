@@ -27,7 +27,7 @@
           <div class="col-12 col-md-8 col-lg-6 col-xl-5 ">
 
             <h3 class="mb-5 text-center">Login to your account</h3>
-            <div  v-if="isSuccess">
+            <div >
              </div>
             <div class="card shadow-2-strong" >
               
@@ -93,7 +93,8 @@ export default {
             .then(function (data) {
                 // display a success message
                 console.log(data);
-                localStorage.setItem('user', data);
+                localStorage.setItem('user_id', data.data.id);
+                localStorage.setItem('auth_token', data.data.token);
                 self.$router.push('/explore');
             })
             .catch(function (error) {

@@ -59,7 +59,7 @@
 
                 </div>
 
-            <button @click="$router.push({name:'view-car', params: {car_id: car.id},})" class="btn btn-primary"> View more details </button>            
+            <button @click="$router.push({name:'view-car', params: {car_id: car.id}})" class="btn btn-primary"> View more details </button>            
             </div>
          
         </div> 
@@ -87,7 +87,6 @@ export default {
     data() {
         return{
             csrf_token: '',
-            auth_token: '',
             user: {} ,
             favourites: [],
             error: ''
@@ -112,16 +111,6 @@ export default {
             })
         },
 
-        getAuthToken() {
-            let self = this;
-
-            fetch("/api/auth/login")
-                .then((response) => response.json())
-                .then((data) => {
-                    self.auth_token = data.token;
-                    console.log(data.token);
-                })
-        },
 
         getUserProfile() {
             let user_id = this.$route.params.user_id;

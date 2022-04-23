@@ -40,7 +40,7 @@
                     <p class="text-secondary">Make</p> -->
                 </div>
 
-             <button @click="$router.push({name:'view-car', params: {car_id: car.id},})" class="btn btn-primary card_btn"> View more details </button>
+             <button @click="$router.push({name:'view-car', params: {car_id: car.id}})" class="btn btn-primary card_btn"> View more details </button>
                <!--  <button class="btn btn-primary card_btn">View more details</button> -->
             </div>
          
