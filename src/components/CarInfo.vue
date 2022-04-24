@@ -33,7 +33,8 @@
                 </svg> -->
                 
                 <img  id = "fav-outline"
-                src="https://img.icons8.com/material-outlined/24/fa314a/like--v1.png"/>
+                src="https://img.icons8.com/material-rounded/24/fa314a/like--v1.png"/>
+                
 
                 </button>
 
@@ -42,11 +43,9 @@
                     <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
                 </svg> -->
                 
-                <img id = "fav-outline" class="" 
-                src="https://img.icons8.com/material-outlined/24/fa314a/like--v1.png"/> 
 
-                <img id="fav-filled" class="hidden" 
-                src="https://img.icons8.com/material-rounded/24/fa314a/like--v1.png"/>
+                <img id="fav-filled"
+                src="https://img.icons8.com/material-outlined/24/fa314a/like--v1.png"/>
 
             </button>
             </div>
@@ -70,15 +69,8 @@ export default {
     created(){
         this.getCsrfToken();
         this.getCar();
-        if (!localStorage.getItem(this.$route.params.car_id)){ 
-            this.isFavourite=false;
-            console.log(this.isFavourite);
-        }
-        else{
-            this.isFavourite=true;
-            console.log(this.isFavourite);
-        }
-        
+        /*checks if car is already favourited*/
+        this.checkFavourite();        
     },
 
 
@@ -148,6 +140,7 @@ export default {
 
         removeFromFavourites(){
             let car_id = this.$route.params.car_id;
+            let self = this;
 
             fetch("/api/cars/" + car_id + "/favourite/remove",{
                 method: 'POST',
@@ -174,7 +167,48 @@ export default {
                 .catch(function (error) {
                     console.log(error);
                 });
+        },
+        checkFavourite(){
+            let user_id = localStorage.getItem('user_id');
+            let car_id = this.$route.params.car_id;
+            let self = this;
+            let cars = [];
+
+            fetch("/api/users/" + user_id + "/favourites", {
+                method: 'GET',
+                headers: {
+                    'X-CSRFToken': this.csrf_token,
+                    'Authorization': 'Bearer ' + localStorage.getItem('auth_token')
+                }
+            })
+                .then(function(response) {
+                    return response.json();
+                })
+                .then(function(data) {
+                    console.log(data);
+                    if (data.message != undefined){
+                        console.log(data.message);
+                        self.error = data.message;
+                    }else {
+                        console.log(data);
+                        cars = data.data.map (x => x.id);
+                        console.log(cars)
+                        console.log(car_id)
+                        self.isFavourite = cars.includes(parseInt(car_id));
+                        if (self.isFavourite) {
+                            console.log("Car is part of favourites.")
+                        }
+                        else {
+                            console.log("Car is not part of favourites.")
+                        };
+                    }
+
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
         }
+
 
     }
 }
