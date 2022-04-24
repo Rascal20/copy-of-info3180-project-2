@@ -127,6 +127,7 @@ export default {
     },
     methods: {
         register() {
+            let self = this;
             let registerForm = document.getElementById('registerForm');
             let form_data = new FormData(registerForm);
             fetch("/api/register", {

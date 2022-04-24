@@ -88,7 +88,7 @@ export default {
                 method: 'GET',
                 headers: {
                     'X-CSRFToken': this.csrf_token,
-                    'Authorization': 'Bearer ' + localStorage.getItem('auth_token')
+                    'Authorization': 'Bearer ' + localStorage.getItem('user')
                 }
             })
                 .then(function(response) {
@@ -110,12 +110,12 @@ export default {
 
             fetch("/api/cars/" + car_id + "/favourite", {
                 method: 'POST',
-                body: JSON.stringify({car_id: car_id, user_id: "1"}),
+                //body: JSON.stringify({car_id: car_id, user_id: "1"}),
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
                     'X-CSRFToken': this.csrf_token,
-                    'Authorization': 'Bearer ' + localStorage.getItem('auth_token')
+                    'Authorization': 'Bearer ' + localStorage.getItem('user')
                 }
             })
                 .then(function(response) {
@@ -143,7 +143,7 @@ export default {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
                     'X-CSRFToken': this.csrf_token,
-                    'Authorization': 'Bearer ' + localStorage.getItem('auth_token')
+                    'Authorization': 'Bearer ' + localStorage.getItem('user')
                 }
             })
                 .then(function(response) {

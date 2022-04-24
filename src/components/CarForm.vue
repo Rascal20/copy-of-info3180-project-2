@@ -177,7 +177,7 @@ export default {
                 body: form_data,
                 headers: {
                     'X-CSRFToken': this.csrf_token,
-                    'Authorization': 'Bearer ' + this.auth_token
+                    'Authorization': 'Bearer ' + localStorage.getItem('user')
                 }
 			})
 			.then(function (response){
