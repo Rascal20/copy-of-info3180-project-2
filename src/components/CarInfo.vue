@@ -1,19 +1,44 @@
 <template>
-    <div class="card">
-        <img :src="'/uploads/' + car.photo"/>
-        <h1> {{ car.year }} {{ car.make }}</h1>
-        <p> {{ car.model }}</p>
-        <p> {{ car. description }}</p>
-        <p> Colour: {{ car.colour }}</p>
-        <p> Body Type: {{ car.car_type }}</p>
-        <p> Price: {{ car.price }}</p>
-        <p>Transmission: {{ car.transmission}}</p>
+    <div class="card container  h-100  flex-row flex-nowrap car-details-cont">
+        <div class="car_img_div">
+            <img :src="'/uploads/' + car.photo"  class="car_details_img" /> 
+        </div>
+        
+        <div class="car-info ">
+            <h2> {{ car.year }} {{ car.make }}</h2>
+            <h3 class="text-secondary"> {{ car.model }} </h3>
+            <p class="text-secondary desc"> {{ car. description }}
+            </p>
+            <br>
+            <br>
+            <div class="d-flex ">
+                <div class="mr-auto p-2">
+                <p> Colour: {{ car.colour }} </p>
+                <p> Price: {{ car.price }} </p>
+                </div>
 
-        <button> Email owner </button>
+                <div class="p-2">
+                <p> Body Type: {{ car.car_type }}</p>
+                <p>Transmission: {{ car.transmission}} </p>
+                </div>
 
-        <button v-if="isFavourite === true" @click.prevent="removeFromFavourites">Favourite</button>
+            </div>
+            <div class="d-flex justify-content-between">
+            <button class="btn btn-primary green"> Email owner </button>
 
-        <button v-else-if="isFavourite === false" @click.prevent="addToFavourites">Favourite</button>
+            <button v-if="isFavourite === true" @click.prevent="removeFromFavourites" class="fav">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                    <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
+                </svg></button>
+
+            <button v-else-if="isFavourite === false" @click.prevent="addToFavourites" class="fav ">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                    <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
+                </svg>
+            </button>
+            </div>
+
+        </div>
 
         
     </div>
@@ -146,9 +171,51 @@ export default {
 
 .card{
     margin-top: 60px;
+    
 }
 
-img{
-    width: 200px;
+.car-details-cont{
+    width:65vw;
+
+}
+
+.container{
+    padding-left: 0px;
+    border-radius: .5em;
+}
+
+.car-info{
+    align-items: stretch;
+    padding-top:2em;
+}
+
+.btns{
+    justify-content: flex-end;
+}
+
+.car_img_div{
+    margin-right: 2em;
+    overflow:hidden;
+}
+.car_details_img{
+    max-width: 50vw;
+    object-fit:cover;
+    border-radius: .5em 0em 0em .5em;
+   
+}
+
+.desc{
+    max-width:70%;
+}
+.d-flex{
+    gap:.5em;
+}
+.fav{
+    background-color:white;
+    border-radius: 100%;
+    border: 1px solid black;
+    
+    width:40px;
+    height:40px;
 }
 </style>
