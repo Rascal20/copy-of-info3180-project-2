@@ -206,14 +206,12 @@ def cars():
 @app.route("/api/cars/<car_id>/favourite", methods=["POST"])
 @requires_auth
 def favourite(car_id):
-    json_favourite = request.json()
-    cid = json_favourite["car_id"]
-    uid = json_favourite["user_id"]
+    uid = parse_userId(request.headers.get('Authorization'))
 
-    isFav = Favourites.query.filter(Favourites.car_id == cid).filter(Favourites.user_id == uid ).first()
+    isFav = Favourites.query.filter(Favourites.car_id == car_id).filter(Favourites.user_id == uid ).first()
    
     if isFav == None:
-        favourite = Favourites(car_id = cid, user_id = uid)
+        favourite = Favourites(car_id = car_id, user_id = uid)
         db.session.add(favourite)
         db.session.commit()
         data = {
