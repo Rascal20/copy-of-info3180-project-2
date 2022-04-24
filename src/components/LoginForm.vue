@@ -105,7 +105,7 @@ export default {
                     //self.success_msg= data.message;
                     self.$router.push({name:'explore'});
                 }else{
-                    self.errors = data;
+                    self.errors = data.errors;
                 }
                 localStorage.setItem('user_id', data.data.id);
                 localStorage.setItem('auth_token', data.data.token);
