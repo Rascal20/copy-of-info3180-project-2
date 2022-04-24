@@ -56,7 +56,8 @@ def requires_auth(f):
 
 @app.route('/')
 def index():
-    return jsonify(message="This is the beginning of our API")
+    #return jsonify(message="This is the beginning of our API")
+    return send_file(os.path.join('../dist/', 'index.html'))
 
 @app.route("/api/auth/login", methods=['POST'])
 def login():

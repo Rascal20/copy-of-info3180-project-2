@@ -29,7 +29,7 @@ export default {
         
         </div>
         <div class="right">
-            <img class="homeimg" src="src/assets/homeimg.jpeg" alt="bg">
+            <img class="homeimg" v-bind:src="require('assets/homeimg.jpeg')" alt="bg">
         </div>       
     </div>
 </template>
