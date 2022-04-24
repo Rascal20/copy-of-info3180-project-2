@@ -27,15 +27,18 @@
           <div class="col-12 col-md-8 col-lg-6 col-xl-5 ">
 
             <h3 class="mb-5 text-center">Login to your account</h3>
-            <div >
-             </div>
+            <div v-if="errors.length < 0" class="alert alert-danger">
+              <ul>
+                <li v-for="error in errors">{{ error }}</li>
+              </ul>
+            </div>
+           
             <div class="card shadow-2-strong" >
               
               <div class="card-body p-5 text-left">
     
                 <form  @submit.prevent="loginUser" id="loginForm" enctype="multipart/form-data">
                     <div class="form-group">
-                
                 <div class="form-outline mb-4">
                   <label class="form-label" for="typeEmailX">Username</label>
                   <input type="text" id="typeEmailX" class="form-control form-control-lg" name="username"/>
@@ -68,7 +71,9 @@ export default {
     name: 'LoginForm',
     data() {
             return {
-                csrf_token: ''
+                csrf_token: '',
+                isSuccess: '',
+                errors:[]
             };
     },
     created() {
@@ -93,6 +98,8 @@ export default {
             .then(function (data) {
                 // display a success message
                 console.log(data);
+                self.errors = data.message;
+                      
                 localStorage.setItem('user_id', data.data.id);
                 localStorage.setItem('auth_token', data.data.token);
                 self.$router.push('/explore');
