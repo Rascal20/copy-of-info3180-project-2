@@ -88,7 +88,7 @@ export default {
                 method: 'GET',
                 headers: {
                     'X-CSRFToken': this.csrf_token,
-                    'Authorization': 'Bearer ' + localStorage.getItem('user')
+                    'Authorization': 'Bearer ' + localStorage.getItem('auth_token')
                 }
             })
                 .then(function(response) {
@@ -115,7 +115,7 @@ export default {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
                     'X-CSRFToken': this.csrf_token,
-                    'Authorization': 'Bearer ' + localStorage.getItem('user')
+                    'Authorization': 'Bearer ' + localStorage.getItem('auth_token')
                 }
             })
                 .then(function(response) {
@@ -143,7 +143,7 @@ export default {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
                     'X-CSRFToken': this.csrf_token,
-                    'Authorization': 'Bearer ' + localStorage.getItem('user')
+                    'Authorization': 'Bearer ' + localStorage.getItem('auth_token')
                 }
             })
                 .then(function(response) {

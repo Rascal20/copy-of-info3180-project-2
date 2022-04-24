@@ -152,7 +152,7 @@ export default {
     data() {
         return{
             csrf_token: '',
-            auth_token: '',
+            //auth_token: '',
             //car_types: []
             success_msg: '',
             errors: []
@@ -177,7 +177,7 @@ export default {
                 body: form_data,
                 headers: {
                     'X-CSRFToken': this.csrf_token,
-                    'Authorization': 'Bearer ' + localStorage.getItem('user')
+                    'Authorization': 'Bearer ' + localStorage.getItem('auth_token')
                 }
 			})
 			.then(function (response){
