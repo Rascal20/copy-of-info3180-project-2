@@ -177,7 +177,7 @@ export default {
                 body: form_data,
                 headers: {
                     'X-CSRFToken': this.csrf_token,
-                    //'Authorization': `Bearer ` + this.auth_token
+                    'Authorization': 'Bearer ' + this.auth_token
                 }
 			})
 			.then(function (response){
@@ -202,7 +202,7 @@ export default {
             fetch("/api/csrf-token")
                 .then((response) => response.json())
                 .then((data) => {
-                    this.csrf_token = data.token;
+                    self.csrf_token = data.csrf_token;
                     console.log(data);
                 })
         },
