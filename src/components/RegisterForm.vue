@@ -143,7 +143,7 @@ export default {
             .then(function (data) {
                 // display a success message
                 console.log(data);
-                self.$router.push('/explore');
+                self.$router.push('/login');
             })
             .catch(function (error) {
                 console.log(error);
