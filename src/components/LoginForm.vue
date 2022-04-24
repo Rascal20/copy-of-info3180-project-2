@@ -31,7 +31,7 @@
                 {{ success_msg }}
                 
             </div>
-            <div v-if="errors.length!=0" class="alert alert-danger">
+            <div v-if="errors.length" class="alert alert-danger">
                 <ul>
                     <li v-for="error in errors">{{ error }}</li>
                 </ul>
@@ -75,7 +75,7 @@ export default {
     data() {
             return {
                 csrf_token: '',
-                success_msg: '',
+                //success_msg: false,
                 errors: []
             };
     },
@@ -101,14 +101,13 @@ export default {
             .then(function (data) {
                 // display a success message
                 console.log(data);
-                if(data.message != undefined){
-                    //self.success_msg= data.message;
-                    self.$router.push({name:'explore'});
-                }else{
+                if(data.message == undefined){
                     self.errors = data.errors;
                 }
                 localStorage.setItem('user_id', data.data.id);
                 localStorage.setItem('auth_token', data.data.token);
+                self.$router.push('/explore');
+
             })
             .catch(function (error) {
                 console.log(error);
