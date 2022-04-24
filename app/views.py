@@ -349,6 +349,10 @@ def findCars():
         carLst.append(carDct)
     return jsonify(cars=carLst), 200
 
+@app.route("/uploads/<file_name>")
+def getImage(file_name):
+    return send_file(os.path.join('.' + app.config['UPLOAD_FOLDER'], file_name))
+
 
 @app.after_request
 def add_header(response):

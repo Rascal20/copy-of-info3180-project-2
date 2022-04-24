@@ -30,7 +30,7 @@
 
              <div  v-for="car in cars" class="card shadow car-card">
                 <!-- <img class="card-img-top" src="/src/assets/homeimg.jpeg"> -->
-                <img :src="'uploads/' + car.photo" class="card-img-top"  alt="Card image cap"/>
+                <img :src="'../uploads/' + car.photo" class="card-img-top"  alt="Card image cap"/>
                 <div class="card-body ">
                   <h5 class="card-title"> {{ car.year }} {{ car.model }} <span class=" text-light price" >  <img src="/src/assets/tag.png" > {{ car.price }} </span> </h5>
                     <p class="text-secondary"> {{ car.make }} </p>
