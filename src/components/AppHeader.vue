@@ -2,10 +2,10 @@
   <header>
       <nav class="navbar  navbar-dark bg-dark fixed-top ">
       <div class="container-fluid">
-        <a class="navbar-brand" href="/">
+        <a class="navbar-brand" :href="icon_path">
         <img src="/src/assets/logo.png" width="24" height="24" class="d-inline-block align-center" alt="logo">
         United Auto Sales</a>
-        <div id="navbarSupportedContent" v-if="isLoggedIn()==true || logged_out==true">
+        <div id="navbarSupportedContent" v-if="isLoggedIn()==false & logged_out==true & logged_in == false">
           <ul class="nav justify-content-end" >
             <li class="nav-item">
               <RouterLink class="nav-link" to="/login">Login</RouterLink>
@@ -47,21 +47,33 @@ export default {
       return {
         csrf_token: '',
         user_id: localStorage.getItem('user_id'),
-        logged_out: false
+        logged_out: true,
+        icon_path: '/',
+        logged_in: localStorage.getItem('auth_token') != null
       };     
     },
     created() {
             this.getCsrfToken();
+            this.isLoggedIn();
+            this.emitter.on('isLoggedIn', (evt)  => {
+              console.log("event");
+              console.log(evt.eventContent);
+              this.isLoggedIn();
+            })
     },
     methods: {
       isLoggedIn() {
         if (localStorage.getItem('auth_token') === null){
           console.log('User is not Logged in!');
-          return true;
+          return false;
         }
         else{
           console.log('User is logged in!');
-          return false;
+          this.logged_in = true;
+          this.logged_out = false;
+          this.icon_path = '/explore';
+          this.user_id = localStorage.getItem('user_id')
+          return true;
         }
       },
       logout(){
@@ -80,6 +92,8 @@ export default {
                 localStorage.removeItem('auth_token');
                 localStorage.removeItem('user_id');
                 self.logged_out = true;
+                self.logged_in = false;
+                self.icon_path = '/';
                 self.$router.push('/'); 
             })
       },

@@ -75,10 +75,11 @@ def login():
                     'exp': datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(minutes=30)
                 }
                 token = jwt.encode(payload, app.config['SECRET_KEY'], algorithm='HS256')
-                return jsonify(data={'message': 'Login Successful','token': token, 'id': user.id})
+                return jsonify(data={'message': 'Login Successful','token': token, 'id': user.id}), 200
             else:
                 errors.append('Unauthorized Username or Password provided.')
-        return jsonify(errors=form_errors(form) + errors)
+                return jsonify(errors=errors), 401
+        return jsonify(errors=form_errors(form)), 400
 
 @app.route("/api/auth/logout", methods=["POST"])
 @requires_auth
@@ -226,16 +227,25 @@ def favourite(car_id):
 def remove_favourite(car_id):
     user_id = parse_userId(request.headers.get('Authorization'))
     fav = Favourites.query.filter(Favourites.car_id == car_id).filter(Favourites.user_id == user_id ).first()
+    if fav:
+        db.session.delete(fav)
+        db.session.commit()
+        data = {
+            'message': 'Car Successfully Unfavourited',
+            'id': car_id
+        }
+        return jsonify(data=data), 200
+    else:
+        data = {
+            'message': 'Favourite not found',
+            'id': car_id
+        }
+        return jsonify(data=data), 404
 
-    db.session.delete(fav)
-    db.session.commit()
 
-    data = {
-        'message': 'Car Successfully Unfavourited',
-        'id': car_id
-    }
+    
 
-    return jsonify(data=data)
+    
 
 @app.route("/api/users/<user_id>", methods=["GET"])
 @requires_auth

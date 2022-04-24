@@ -29,11 +29,10 @@
             <h3 class="mb-5 text-center">Login to your account</h3>
             <div v-if="success_msg" class="alert alert-success">
                 {{ success_msg }}
-                
             </div>
-            <div v-if="errors.length!=0" class="alert alert-danger">
+            <div v-if="errors_exist == 1" class="alert alert-danger">
                 <ul>
-                    <li v-for="error in errors">{{ error }}</li>
+                    <li v-for= "error in errors">{{ error }}</li>
                 </ul>
             </div>
             <div class="card shadow-2-strong" >
@@ -76,7 +75,8 @@ export default {
             return {
                 csrf_token: '',
                 success_msg: '',
-                errors: []
+                errors: [],
+                errors_exist: 0
             };
     },
     created() {
@@ -88,6 +88,7 @@ export default {
             let self = this;
             let loginForm = document.getElementById('loginForm');
             let form_data = new FormData(loginForm);
+            self.errors_exist = 0
             fetch("/api/auth/login", {
                 method: 'POST',
                 body: form_data,
@@ -96,19 +97,25 @@ export default {
                 }
             })
             .then(function (response) {
+                console.log(response.status)
+                if (response.status != 200){
+                    self.errors_exist = 1;
+                }
                 return response.json();
             })
             .then(function (data) {
                 // display a success message
                 console.log(data);
-                if(data.message != undefined){
+                if(self.errors_exist == 0){
                     //self.success_msg= data.message;
                     self.$router.push({name:'explore'});
-                }else{
-                    self.errors = data.errors;
+                    localStorage.setItem('user_id', data.data.id);
+                    localStorage.setItem('auth_token', data.data.token);
+                    self.emitter.emit('isLoggedIn', {'eventContent': 'User logged in!'});
                 }
-                localStorage.setItem('user_id', data.data.id);
-                localStorage.setItem('auth_token', data.data.token);
+                else {
+                  self.errors = data.errors;
+                }
             })
             .catch(function (error) {
                 console.log(error);
