@@ -127,6 +127,7 @@ export default {
     },
     methods: {
         register() {
+            let self = this;
             let registerForm = document.getElementById('registerForm');
             let form_data = new FormData(registerForm);
             fetch("/api/register", {
@@ -142,6 +143,7 @@ export default {
             .then(function (data) {
                 // display a success message
                 console.log(data);
+                self.$router.push('/login');
             })
             .catch(function (error) {
                 console.log(error);

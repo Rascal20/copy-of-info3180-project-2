@@ -77,7 +77,7 @@ export default {
             .then((response) => response.json())
             .then((data) => {
                 console.log(data);
-                self.csrf_token = data.token;
+                self.csrf_token = data.csrf_token;
             })
         },
 
@@ -87,7 +87,7 @@ export default {
                 method: 'GET',
                 headers: {
                     'X-CSRFToken': self.csrf_token,
-                    'Authorization': `Bearer ` + localStorage.getItem('auth_token')
+                    'Authorization': 'Bearer  ' + localStorage.getItem('auth_token')
                 }
             })
                 .then(function(response) {
@@ -109,7 +109,7 @@ export default {
                 method: 'GET',
                 headers:{
                     'X-CSRFToken': this.csrf_token,
-                    'Authorization': `Bearer ` + localStorage.getItem('auth_token')
+                    'Authorization': 'Bearer  ' + localStorage.getItem('auth_token')
                 }
             })
                 .then(function(response){
