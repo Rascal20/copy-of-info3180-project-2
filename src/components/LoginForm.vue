@@ -27,12 +27,15 @@
           <div class="col-12 col-md-8 col-lg-6 col-xl-5 ">
 
             <h3 class="mb-5 text-center">Login to your account</h3>
-            <div v-if="errors.length < 0" class="alert alert-danger">
-              <ul>
-                <li v-for="error in errors">{{ error }}</li>
-              </ul>
+            <div v-if="success_msg" class="alert alert-success">
+                {{ success_msg }}
+                
             </div>
-           
+            <div v-if="errors.length!=0" class="alert alert-danger">
+                <ul>
+                    <li v-for="error in errors">{{ error }}</li>
+                </ul>
+            </div>
             <div class="card shadow-2-strong" >
               
               <div class="card-body p-5 text-left">
@@ -72,8 +75,8 @@ export default {
     data() {
             return {
                 csrf_token: '',
-                isSuccess: '',
-                errors:[]
+                success_msg: '',
+                errors: []
             };
     },
     created() {
@@ -98,11 +101,14 @@ export default {
             .then(function (data) {
                 // display a success message
                 console.log(data);
-                self.errors = data.message;
-                      
+                if(data.message != undefined){
+                    //self.success_msg= data.message;
+                    self.$router.push({name:'explore'});
+                }else{
+                    self.errors = data;
+                }
                 localStorage.setItem('user_id', data.data.id);
                 localStorage.setItem('auth_token', data.data.token);
-                self.$router.push('/explore');
             })
             .catch(function (error) {
                 console.log(error);
