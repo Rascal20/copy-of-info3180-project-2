@@ -138,7 +138,7 @@ export default {
 
             fetch("/api/cars/" + car_id + "/favourite/remove",{
                 method: 'POST',
-                body: JSON.stringify({car_id: car_id, user_id: 1}),
+                //body: JSON.stringify({car_id: car_id, user_id: 1}),
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
