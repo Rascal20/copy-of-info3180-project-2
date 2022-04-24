@@ -93,9 +93,8 @@ export default {
             .then(function (data) {
                 // display a success message
                 console.log(data);
-                console.log(data.id)
-                //localStorage.setItem('user_id', data.id);
-                JSON.parse(localStorage.setItem('auth_token', data));
+                localStorage.setItem('user_id', data.data.id);
+                localStorage.setItem('auth_token', data.data.token);
                 self.$router.push('/explore');
             })
             .catch(function (error) {
