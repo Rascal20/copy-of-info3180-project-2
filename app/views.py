@@ -351,6 +351,7 @@ def findCars():
 
 @app.route("/uploads/<file_name>")
 def getImage(file_name):
+    print (os.path.join('.' + app.config['UPLOAD_FOLDER'], file_name))
     return send_file(os.path.join('.' + app.config['UPLOAD_FOLDER'], file_name))
 
 
