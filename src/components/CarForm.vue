@@ -248,4 +248,8 @@ export default {
 .reg{
     grid-area: 7;
 }
+
+.container{ 
+    margin-top: 0; 
+}
 </style>

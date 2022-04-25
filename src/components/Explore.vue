@@ -171,4 +171,8 @@ export default {
     border-radius: .2em;
     margin-left:.5em;
 }
+
+.container{ 
+    margin-top: 0; 
+}
 </style>
